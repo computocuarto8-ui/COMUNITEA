@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ComuniTEA - Aprendizaje</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@100..900&family=Quicksand:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#007348",
+                    "secondary-fixed": "#97f6be",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#006d43",
+                    "surface-variant": "#e1e3e3",
+                    "on-primary-fixed": "#001e2f",
+                    "surface": "#f8f9f9",
+                    "surface-dim": "#d9dada",
+                    "on-tertiary-container": "#463a00",
+                    "tertiary-container": "#bca43d",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#221b00",
+                    "tertiary-fixed": "#fde274",
+                    "surface-container": "#edeeee",
+                    "background": "#f8f9f9",
+                    "surface-container-highest": "#e1e3e3",
+                    "on-secondary-fixed": "#002111",
+                    "surface-bright": "#f8f9f9",
+                    "error": "#ba1a1a",
+                    "on-surface": "#191c1c",
+                    "primary-fixed-dim": "#8aceff",
+                    "tertiary-fixed-dim": "#dfc65b",
+                    "primary-container": "#5dade2",
+                    "tertiary": "#6f5d00",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#e7e8e8",
+                    "on-primary-fixed-variant": "#004b6f",
+                    "inverse-surface": "#2e3131",
+                    "on-secondary": "#ffffff",
+                    "primary": "#006491",
+                    "on-surface-variant": "#40484f",
+                    "on-tertiary-fixed-variant": "#544600",
+                    "outline": "#707880",
+                    "inverse-on-surface": "#f0f1f1",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-background": "#191c1c",
+                    "surface-tint": "#006491",
+                    "secondary-container": "#97f6be",
+                    "on-primary-container": "#003f5d",
+                    "surface-container-low": "#f3f4f4",
+                    "secondary-fixed-dim": "#7bd9a4",
+                    "inverse-primary": "#8aceff",
+                    "outline-variant": "#bfc7d0",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#c9e6ff",
+                    "on-secondary-fixed-variant": "#005231"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "24px",
+                    "stack-lg": "40px",
+                    "stack-md": "24px",
+                    "gutter": "16px",
+                    "stack-sm": "12px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Atkinson Hyperlegible Next"],
+                    "headline-lg": ["Quicksand"],
+                    "headline-md": ["Quicksand"],
+                    "body-lg": ["Quicksand"],
+                    "headline-lg-mobile": ["Quicksand"],
+                    "body-md": ["Quicksand"]
+            },
+            "fontSize": {
+                    "label-caps": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8f9f9;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .pictogram-card {
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-bottom: 4px solid rgba(0,0,0,0.1);
+        }
+
+        .pictogram-card:active {
+            transform: translateY(4px);
+            border-bottom-width: 0px;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .confetti-piece {
+            position: fixed;
+            top: -20px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-background min-h-screen flex flex-col pb-24">
+<!-- TopAppBar Shell -->
+<header class="bg-surface dark:bg-surface-dim grid grid-cols-3 items-center w-full px-container-padding py-4 border-b-2 border-surface-variant dark:border-outline-variant sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full active:translate-y-0.5 transition-transform" onclick="history.back()">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">arrow_back</span>
+</button>
+</div>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim text-center">ComuniTEA</h1>
+<div class="flex justify-end">
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full active:translate-y-0.5 transition-transform">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">help</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-container-padding py-stack-md max-w-4xl mx-auto w-full">
+<!-- Category Tabs -->
+<div class="flex gap-stack-sm mb-stack-lg">
+<button class="flex-1 h-14 bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl font-label-caps text-label-caps text-on-primary-container flex items-center justify-center gap-2 active:translate-y-1 transition-all" id="tab-vocales" onclick="switchCategory('vocales')">
+<span class="material-symbols-outlined">abc</span> VOCALES
+</button>
+<button class="flex-1 h-14 bg-surface-container-highest border-2 border-outline-variant rounded-xl font-label-caps text-label-caps text-on-surface-variant flex items-center justify-center gap-2 active:translate-y-1 transition-all" id="tab-numeros" onclick="switchCategory('numeros')">
+<span class="material-symbols-outlined">pin</span> NÚMEROS
+</button>
+<button class="flex-1 h-14 bg-surface-container-highest border-2 border-outline-variant rounded-xl font-label-caps text-label-caps text-on-surface-variant flex items-center justify-center gap-2 active:translate-y-1 transition-all" id="tab-animales" onclick="switchCategory('animales')">
+<span class="material-symbols-outlined">pets</span> ANIMALES
+</button>
+</div>
+<!-- Vocales Section -->
+<section class="mb-stack-lg category-section" id="section-vocales">
+<div class="flex items-center gap-stack-sm mb-stack-md">
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface flex-1">Las Vocales</h2>
+<button class="h-10 px-4 bg-secondary-fixed-dim border-2 border-secondary rounded-xl font-label-caps text-label-caps text-on-secondary-container flex items-center gap-1 active:translate-y-0.5 transition-all" onclick="startGame('vocales')">
+<span class="material-symbols-outlined text-lg">play_arrow</span> JUGAR
+</button>
+</div>
+<div class="hidden mb-stack-md p-4 bg-surface-container-high rounded-xl border-2 border-outline-variant text-center" id="game-vocales">
+<p class="text-body-lg font-body-lg text-on-surface" id="prompt-vocales">Toca la vocal...</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-gutter">
+<div class="pictogram-card aspect-square bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('A'); checkAnswer('vocales', 'A')">
+<span class="text-6xl font-bold text-on-primary-container mb-2 leading-none tracking-wide">A</span>
+<span class="font-headline-md text-headline-md text-on-primary-container uppercase tracking-wide">A</span>
+</div>
+<div class="pictogram-card aspect-square bg-secondary-container border-2 border-on-secondary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('E'); checkAnswer('vocales', 'E')">
+<span class="text-6xl font-bold text-on-secondary-container mb-2 leading-none tracking-wide">E</span>
+<span class="font-headline-md text-headline-md text-on-secondary-container uppercase tracking-wide">E</span>
+</div>
+<div class="pictogram-card aspect-square bg-tertiary-container border-2 border-on-tertiary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('I'); checkAnswer('vocales', 'I')">
+<span class="text-6xl font-bold text-on-tertiary-container mb-2 leading-none tracking-wide">I</span>
+<span class="font-headline-md text-headline-md text-on-tertiary-container uppercase tracking-wide">I</span>
+</div>
+<div class="pictogram-card aspect-square bg-primary-fixed-dim border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('O'); checkAnswer('vocales', 'O')">
+<span class="text-6xl font-bold text-on-primary-fixed-variant mb-2 leading-none tracking-wide">O</span>
+<span class="font-headline-md text-headline-md text-on-primary-fixed-variant uppercase tracking-wide">O</span>
+</div>
+<div class="pictogram-card aspect-square bg-error-container border-2 border-on-error-container rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('U'); checkAnswer('vocales', 'U')">
+<span class="text-6xl font-bold text-on-error-container mb-2 leading-none tracking-wide">U</span>
+<span class="font-headline-md text-headline-md text-on-error-container uppercase tracking-wide">U</span>
+</div>
+</div>
+</section>
+<!-- Números Section -->
+<section class="mb-stack-lg category-section hidden" id="section-numeros">
+<div class="flex items-center gap-stack-sm mb-stack-md">
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface flex-1">Los Números</h2>
+<button class="h-10 px-4 bg-secondary-fixed-dim border-2 border-secondary rounded-xl font-label-caps text-label-caps text-on-secondary-container flex items-center gap-1 active:translate-y-0.5 transition-all" onclick="startGame('numeros')">
+<span class="material-symbols-outlined text-lg">play_arrow</span> JUGAR
+</button>
+</div>
+<div class="hidden mb-stack-md p-4 bg-surface-container-high rounded-xl border-2 border-outline-variant text-center" id="game-numeros">
+<p class="text-body-lg font-body-lg text-on-surface" id="prompt-numeros">Toca el número...</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-gutter">
+<div class="pictogram-card aspect-square bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('1'); checkAnswer('numeros', '1')">
+<span class="text-6xl font-bold text-on-primary-container mb-2 leading-none tracking-wide">1</span>
+<span class="font-headline-md text-headline-md text-on-primary-container uppercase tracking-wide">UNO</span>
+</div>
+<div class="pictogram-card aspect-square bg-secondary-container border-2 border-on-secondary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('2'); checkAnswer('numeros', '2')">
+<span class="text-6xl font-bold text-on-secondary-container mb-2 leading-none tracking-wide">2</span>
+<span class="font-headline-md text-headline-md text-on-secondary-container uppercase tracking-wide">DOS</span>
+</div>
+<div class="pictogram-card aspect-square bg-tertiary-container border-2 border-on-tertiary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('3'); checkAnswer('numeros', '3')">
+<span class="text-6xl font-bold text-on-tertiary-container mb-2 leading-none tracking-wide">3</span>
+<span class="font-headline-md text-headline-md text-on-tertiary-container uppercase tracking-wide">TRES</span>
+</div>
+<div class="pictogram-card aspect-square bg-primary-fixed-dim border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('4'); checkAnswer('numeros', '4')">
+<span class="text-6xl font-bold text-on-primary-fixed-variant mb-2 leading-none tracking-wide">4</span>
+<span class="font-headline-md text-headline-md text-on-primary-fixed-variant uppercase tracking-wide">CUATRO</span>
+</div>
+<div class="pictogram-card aspect-square bg-error-container border-2 border-on-error-container rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('5'); checkAnswer('numeros', '5')">
+<span class="text-6xl font-bold text-on-error-container mb-2 leading-none tracking-wide">5</span>
+<span class="font-headline-md text-headline-md text-on-error-container uppercase tracking-wide">CINCO</span>
+</div>
+<div class="pictogram-card aspect-square bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('6'); checkAnswer('numeros', '6')">
+<span class="text-6xl font-bold text-on-primary-container mb-2 leading-none tracking-wide">6</span>
+<span class="font-headline-md text-headline-md text-on-primary-container uppercase tracking-wide">SEIS</span>
+</div>
+<div class="pictogram-card aspect-square bg-secondary-container border-2 border-on-secondary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('7'); checkAnswer('numeros', '7')">
+<span class="text-6xl font-bold text-on-secondary-container mb-2 leading-none tracking-wide">7</span>
+<span class="font-headline-md text-headline-md text-on-secondary-container uppercase tracking-wide">SIETE</span>
+</div>
+<div class="pictogram-card aspect-square bg-tertiary-container border-2 border-on-tertiary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('8'); checkAnswer('numeros', '8')">
+<span class="text-6xl font-bold text-on-tertiary-container mb-2 leading-none tracking-wide">8</span>
+<span class="font-headline-md text-headline-md text-on-tertiary-container uppercase tracking-wide">OCHO</span>
+</div>
+<div class="pictogram-card aspect-square bg-primary-fixed-dim border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('9'); checkAnswer('numeros', '9')">
+<span class="text-6xl font-bold text-on-primary-fixed-variant mb-2 leading-none tracking-wide">9</span>
+<span class="font-headline-md text-headline-md text-on-primary-fixed-variant uppercase tracking-wide">NUEVE</span>
+</div>
+<div class="pictogram-card aspect-square bg-error-container border-2 border-on-error-container rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speak('10'); checkAnswer('numeros', '10')">
+<span class="text-6xl font-bold text-on-error-container mb-2 leading-none tracking-wide">10</span>
+<span class="font-headline-md text-headline-md text-on-error-container uppercase tracking-wide">DIEZ</span>
+</div>
+</div>
+</section>
+<!-- Animales Section -->
+<section class="mb-stack-lg category-section hidden" id="section-animales">
+<div class="flex items-center gap-stack-sm mb-stack-md">
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface flex-1">Los Animales</h2>
+<button class="h-10 px-4 bg-secondary-fixed-dim border-2 border-secondary rounded-xl font-label-caps text-label-caps text-on-secondary-container flex items-center gap-1 active:translate-y-0.5 transition-all" onclick="startGame('animales')">
+<span class="material-symbols-outlined text-lg">play_arrow</span> JUGAR
+</button>
+</div>
+<div class="hidden mb-stack-md p-4 bg-surface-container-high rounded-xl border-2 border-outline-variant text-center" id="game-animales">
+<p class="text-body-lg font-body-lg text-on-surface" id="prompt-animales">Toca el animal...</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-gutter">
+<div class="pictogram-card aspect-square bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speakAnimal('Perro'); checkAnswer('animales', 'Perro')">
+<img class="w-16 h-16 mb-2 object-contain" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f415.png" alt="perro">
+<span class="font-headline-md text-headline-md text-on-primary-container uppercase tracking-wide">PERRO</span>
+</div>
+<div class="pictogram-card aspect-square bg-secondary-container border-2 border-on-secondary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speakAnimal('Gato'); checkAnswer('animales', 'Gato')">
+<img class="w-16 h-16 mb-2 object-contain" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f408.png" alt="gato">
+<span class="font-headline-md text-headline-md text-on-secondary-container uppercase tracking-wide">GATO</span>
+</div>
+<div class="pictogram-card aspect-square bg-tertiary-container border-2 border-on-tertiary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speakAnimal('Pájaro'); checkAnswer('animales', 'Pájaro')">
+<img class="w-16 h-16 mb-2 object-contain" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f426.png" alt="pájaro">
+<span class="font-headline-md text-headline-md text-on-tertiary-container uppercase tracking-wide">PÁJARO</span>
+</div>
+<div class="pictogram-card aspect-square bg-primary-fixed-dim border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speakAnimal('Pez'); checkAnswer('animales', 'Pez')">
+<img class="w-16 h-16 mb-2 object-contain" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f41f.png" alt="pez">
+<span class="font-headline-md text-headline-md text-on-primary-fixed-variant uppercase tracking-wide">PEZ</span>
+</div>
+<div class="pictogram-card aspect-square bg-error-container border-2 border-on-error-container rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speakAnimal('Conejo'); checkAnswer('animales', 'Conejo')">
+<img class="w-16 h-16 mb-2 object-contain" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f407.png" alt="conejo">
+<span class="font-headline-md text-headline-md text-on-error-container uppercase tracking-wide">CONEJO</span>
+</div>
+<div class="pictogram-card aspect-square bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speakAnimal('Vaca'); checkAnswer('animales', 'Vaca')">
+<img class="w-16 h-16 mb-2 object-contain" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f404.png" alt="vaca">
+<span class="font-headline-md text-headline-md text-on-primary-container uppercase tracking-wide">VACA</span>
+</div>
+<div class="pictogram-card aspect-square bg-secondary-container border-2 border-on-secondary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speakAnimal('Elefante'); checkAnswer('animales', 'Elefante')">
+<img class="w-16 h-16 mb-2 object-contain" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f418.png" alt="elefante">
+<span class="font-headline-md text-headline-md text-on-secondary-container uppercase tracking-wide">ELEFANTE</span>
+</div>
+<div class="pictogram-card aspect-square bg-tertiary-container border-2 border-on-tertiary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speakAnimal('León'); checkAnswer('animales', 'León')">
+<img class="w-16 h-16 mb-2 object-contain" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f981.png" alt="león">
+<span class="font-headline-md text-headline-md text-on-tertiary-container uppercase tracking-wide">LEÓN</span>
+</div>
+<div class="pictogram-card aspect-square bg-primary-fixed-dim border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speakAnimal('Mono'); checkAnswer('animales', 'Mono')">
+<img class="w-16 h-16 mb-2 object-contain" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f412.png" alt="mono">
+<span class="font-headline-md text-headline-md text-on-primary-fixed-variant uppercase tracking-wide">MONO</span>
+</div>
+<div class="pictogram-card aspect-square bg-error-container border-2 border-on-error-container rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer" onclick="speakAnimal('Mariposa'); checkAnswer('animales', 'Mariposa')">
+<img class="w-16 h-16 mb-2 object-contain" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f98b.png" alt="mariposa">
+<span class="font-headline-md text-headline-md text-on-error-container uppercase tracking-wide">MARIPOSA</span>
+</div>
+</div>
+</section>
+</main>
+    <!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-inverse-surface border-t-2 border-surface-variant dark:border-outline-variant rounded-t-xl shadow-lg">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="index.html">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-caps font-label-caps">Inicio</span>
+</a>
+<!-- Words -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="tablero_comunicacion.html">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="text-label-caps font-label-caps">Palabras</span>
+</a>
+<!-- Feelings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="emociones.html">
+<span class="material-symbols-outlined">mood</span>
+<span class="text-label-caps font-label-caps">Emociones</span>
+</a>
+<!-- Play -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="ejercicios.html">
+<span class="material-symbols-outlined">extension</span>
+<span class="text-label-caps font-label-caps">Jugar</span>
+</a>
+<!-- Learning (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="aprendizaje.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="text-label-caps font-label-caps">Aprendizaje</span>
+</a>
+</nav>
+<script>
+        var gameActive = { vocales: false, numeros: false, animales: false };
+        var gameAnswer = { vocales: '', numeros: '', animales: '' };
+        var gameScore = { vocales: 0, numeros: 0, animales: 0 };
+        var gameTotal = { vocales: 0, numeros: 0, animales: 0 };
+        var lastAnswer = { vocales: '', numeros: '', animales: '' };
+
+        var vocalesList = ['A', 'E', 'I', 'O', 'U'];
+        var numerosList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+        var animalesList = ['Perro', 'Gato', 'Pájaro', 'Pez', 'Conejo', 'Vaca', 'Elefante', 'León', 'Mono', 'Mariposa'];
+
+        var bgCtx = null;
+        var bgPlaying = false;
+        var bgCategory = '';
+        var winCtx = null;
+
+        function playHappySound() {
+            try {
+                if (winCtx) winCtx.close();
+                winCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var notes = [523.25, 659.25, 783.99, 1046.5];
+                notes.forEach(function(freq, i) {
+                    var osc = winCtx.createOscillator();
+                    var gain = winCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(winCtx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0.2, winCtx.currentTime + i * 0.15);
+                    gain.gain.exponentialRampToValueAtTime(0.001, winCtx.currentTime + i * 0.15 + 0.5);
+                    osc.start(winCtx.currentTime + i * 0.15);
+                    osc.stop(winCtx.currentTime + i * 0.15 + 0.5);
+                });
+            } catch(e) {}
+        }
+
+        function playBgMusic(category) {
+            try {
+                if (bgCtx) bgCtx.close();
+                bgCtx = new (window.AudioContext || window.webkitAudioContext)();
+                bgPlaying = true;
+                bgCategory = category;
+
+                var melody, tempo;
+                if (category === 'vocales') {
+                    melody = [392.00, 349.23, 329.63, 293.66, 261.63, 293.66, 329.63, 349.23];
+                    tempo = 900;
+                } else if (category === 'numeros') {
+                    melody = [293.66, 329.63, 349.23, 392.00, 349.23, 329.63, 293.66, 261.63];
+                    tempo = 800;
+                } else {
+                    melody = [261.63, 293.66, 329.63, 293.66, 261.63, 246.94, 220.00, 246.94];
+                    tempo = 1000;
+                }
+
+                function playNote(noteIndex, time) {
+                    if (!bgPlaying || !bgCtx || bgCategory !== category) return;
+                    var freq = melody[noteIndex % melody.length];
+                    var osc = bgCtx.createOscillator();
+                    var gain = bgCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(bgCtx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0.04, time);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.6);
+                    osc.start(time);
+                    osc.stop(time + 0.6);
+                    setTimeout(function() {
+                        if (bgPlaying && bgCategory === category) playNote(noteIndex + 1, bgCtx.currentTime);
+                    }, tempo - 200);
+                }
+                playNote(0, bgCtx.currentTime);
+            } catch(e) {}
+        }
+
+        function stopBgMusic() {
+            bgPlaying = false;
+            if (bgCtx) { bgCtx.close(); bgCtx = null; }
+        }
+
+        function switchCategory(category) {
+            document.querySelectorAll('.category-section').forEach(function(s) {
+                s.classList.add('hidden');
+            });
+            document.getElementById('section-' + category).classList.remove('hidden');
+
+            document.querySelectorAll('[id^="tab-"]').forEach(function(t) {
+                t.className = 'flex-1 h-14 bg-surface-container-highest border-2 border-outline-variant rounded-xl font-label-caps text-label-caps text-on-surface-variant flex items-center justify-center gap-2 active:translate-y-1 transition-all';
+            });
+            document.getElementById('tab-' + category).className = 'flex-1 h-14 bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl font-label-caps text-label-caps text-on-primary-container flex items-center justify-center gap-2 active:translate-y-1 transition-all';
+            stopGame(category);
+            stopBgMusic();
+        }
+
+        function startGame(category) {
+            gameActive[category] = true;
+            gameScore[category] = 0;
+            gameTotal[category] = 0;
+            document.getElementById('game-' + category).classList.remove('hidden');
+            playBgMusic(category);
+            nextQuestion(category);
+        }
+
+        function stopGame(category) {
+            gameActive[category] = false;
+            document.getElementById('game-' + category).classList.add('hidden');
+            stopBgMusic();
+        }
+
+        function nextQuestion(category) {
+            if (!gameActive[category]) return;
+            var list = category === 'vocales' ? vocalesList : category === 'numeros' ? numerosList : animalesList;
+            var answer;
+            do {
+                answer = list[Math.floor(Math.random() * list.length)];
+            } while (answer === lastAnswer[category] && list.length > 1);
+            lastAnswer[category] = answer;
+            gameAnswer[category] = answer;
+            gameTotal[category]++;
+            var prompt = category === 'vocales' ? 'Toca la vocal ' + answer :
+                         category === 'numeros' ? 'Toca el número ' + answer :
+                         'Toca el ' + answer;
+            document.getElementById('prompt-' + category).textContent = prompt;
+            speak(prompt);
+        }
+
+        function checkAnswer(category, tapped) {
+            if (!gameActive[category]) return;
+            if (tapped === gameAnswer[category]) {
+                gameScore[category]++;
+                playHappySound();
+                launchConfetti();
+                speak('¡Muy bien!');
+                setTimeout(function() { nextQuestion(category); }, 1500);
+            } else {
+                speak('Intenta de nuevo');
+            }
+        }
+
+        function launchConfetti() {
+            var colors = ['#e74c3c', '#f1c40f', '#2ecc71', '#3498db', '#9b59b6', '#e67e22', '#1abc9c', '#e91e63'];
+            var shapes = ['■', '●', '▲', '★', '♦'];
+            for (var i = 0; i < 30; i++) {
+                var el = document.createElement('div');
+                el.className = 'confetti-piece';
+                el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.color = colors[Math.floor(Math.random() * colors.length)];
+                el.style.fontSize = (8 + Math.random() * 16) + 'px';
+                el.style.position = 'fixed';
+                el.style.top = '-20px';
+                el.style.zIndex = '1000';
+                el.style.pointerEvents = 'none';
+                el.style.animation = 'confettiFall ' + (2 + Math.random() * 3) + 's linear forwards';
+                el.style.animationDelay = (Math.random() * 0.5) + 's';
+                document.body.appendChild(el);
+                setTimeout(function() { el.remove(); }, 5000);
+            }
+        }
+
+        function speak(text) {
+            speechSynthesis.cancel();
+            var utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 1.0;
+            speechSynthesis.speak(utterance);
+            if ('vibrate' in navigator) {
+                navigator.vibrate(30);
+            }
+        }
+
+        const animalSounds = {
+            'Perro': 'https://www.soundjay.com/animal/dog-barking-1.mp3',
+            'Gato': 'https://www.soundjay.com/animal/cat-meow-1.mp3',
+            'Vaca': 'https://www.soundjay.com/animal/cow-moo-1.mp3',
+            'León': 'https://www.soundjay.com/animal/lion-roar-1.mp3',
+            'Pájaro': 'https://www.soundjay.com/animal/bird-chirp-1.mp3',
+            'Elefante': 'https://www.soundjay.com/animal/elephant-trumpet-1.mp3',
+            'Mono': null,
+            'Pez': null,
+            'Conejo': null,
+            'Mariposa': null
+        };
+
+        function speakAnimal(name) {
+            speechSynthesis.cancel();
+            var utterance = new SpeechSynthesisUtterance(name);
+            utterance.lang = 'es-ES';
+            utterance.rate = 1.0;
+            utterance.onend = function() {
+                var url = animalSounds[name];
+                if (url) {
+                    new Audio(url).play().catch(function() {});
+                }
+            };
+            speechSynthesis.speak(utterance);
+            if ('vibrate' in navigator) {
+                navigator.vibrate(30);
+            }
+        }
+    </script>
+</body></html>

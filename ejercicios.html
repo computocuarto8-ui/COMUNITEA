@@ -3,7 +3,7 @@
 <html class="light" lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CalmComm - Juego de Emparejar</title>
+<title>ComuniTEA - Juego de Emparejar</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -150,14 +150,18 @@
   </head>
 <body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
 <!-- TopAppBar -->
-<header class="bg-surface dark:bg-surface-dim border-b-2 border-surface-variant dark:border-outline-variant flex justify-between items-center w-full px-container-padding py-4 sticky top-0 z-40">
+<header class="bg-surface dark:bg-surface-dim border-b-2 border-surface-variant dark:border-outline-variant grid grid-cols-3 items-center w-full px-container-padding py-4 sticky top-0 z-40">
+<div class="flex items-center gap-4">
 <button class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
 <span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
 </button>
-<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">CalmComm</h1>
+</div>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim text-center">ComuniTEA</h1>
+<div class="flex justify-end">
 <button class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
 <span class="material-symbols-outlined" data-icon="help">help</span>
 </button>
+</div>
 </header>
 <main class="flex-grow container mx-auto max-w-lg px-container-padding pt-stack-md pb-32">
 <!-- Progress Bar Section -->
@@ -243,6 +247,10 @@
 <a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="ejercicios.html">
 <span class="material-symbols-outlined mb-1 filled-icon" data-icon="extension">extension</span>
 <span class="font-label-caps text-label-caps">Jugar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="aprendizaje.html">
+<span class="material-symbols-outlined mb-1" data-icon="school">school</span>
+<span class="font-label-caps text-label-caps">Aprendizaje</span>
 </a>
 </nav>
     <script>
