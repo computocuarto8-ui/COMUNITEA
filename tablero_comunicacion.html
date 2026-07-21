@@ -239,7 +239,63 @@
 <span class="text-label-caps font-label-caps">Aprendizaje</span>
 </a>
 </nav>
-<script>
+    <div class="hidden fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-error text-on-error px-4 py-2 rounded-xl font-body-md shadow-lg" id="tts-warning">Audio no disponible en este dispositivo</div>
+    <script>
+        var audioUnlocked = false;
+        var ttsAvailable = false;
+
+        function unlockAudio() {
+            if (audioUnlocked) return;
+            audioUnlocked = true;
+            try {
+                var ctx = new (window.AudioContext || window.webkitAudioContext)();
+                ctx.resume();
+                ctx.close();
+            } catch(e) {}
+            checkTTS();
+        }
+
+        function checkTTS() {
+            if (typeof speechSynthesis === 'undefined') {
+                showTTSWarning();
+                return;
+            }
+            ttsAvailable = true;
+            if (speechSynthesis.getVoices().length > 0) return;
+            speechSynthesis.addEventListener('voiceschanged', function() {
+                if (speechSynthesis.getVoices().length > 0) ttsAvailable = true;
+            }, { once: true });
+            setTimeout(function() {
+                if (speechSynthesis.getVoices().length === 0) {
+                    showTTSWarning();
+                }
+            }, 3000);
+        }
+
+        function showTTSWarning() {
+            var warn = document.getElementById('tts-warning');
+            if (warn) {
+                warn.classList.remove('hidden');
+                setTimeout(function() { warn.classList.add('hidden'); }, 5000);
+            }
+        }
+
+        function speakText(text) {
+            if (!text) return;
+            try {
+                speechSynthesis.cancel();
+                var utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                utterance.rate = 1.0;
+                speechSynthesis.speak(utterance);
+            } catch(e) {
+                showTTSWarning();
+            }
+        }
+
+        document.addEventListener('touchstart', unlockAudio, { once: true });
+        document.addEventListener('click', unlockAudio, { once: true });
+
         const textInput = document.getElementById('text-input');
 
         textInput.addEventListener('keydown', function(e) {
@@ -253,13 +309,7 @@
             const current = textInput.value.trim();
             textInput.value = current ? current + ' ' + label : label;
             textInput.focus();
-            try {
-                speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(label);
-                utterance.lang = 'es-ES';
-                utterance.rate = 1.0;
-                speechSynthesis.speak(utterance);
-            } catch(e) {}
+            speakText(label);
             if ('vibrate' in navigator) {
                 navigator.vibrate(50);
             }
@@ -294,14 +344,7 @@
 
         function speakSentence() {
             const text = textInput.value.trim();
-            if (!text) return;
-            try {
-                speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'es-ES';
-                utterance.rate = 1.0;
-                speechSynthesis.speak(utterance);
-            } catch(e) {}
+            speakText(text);
         }
     </script>
 </body></html>

@@ -254,6 +254,32 @@
 </a>
 </nav>
     <script>
+        var audioUnlocked = false;
+
+        function unlockAudio() {
+            if (audioUnlocked) return;
+            audioUnlocked = true;
+            try {
+                var ctx = new (window.AudioContext || window.webkitAudioContext)();
+                ctx.resume();
+                ctx.close();
+            } catch(e) {}
+        }
+
+        function speakText(text) {
+            if (!text) return;
+            try {
+                speechSynthesis.cancel();
+                var utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                utterance.rate = 1.0;
+                speechSynthesis.speak(utterance);
+            } catch(e) {}
+        }
+
+        document.addEventListener('touchstart', unlockAudio, { once: true });
+        document.addEventListener('click', unlockAudio, { once: true });
+
         const allItems = [
             // Comida (10)
             { label: 'Manzana', category: 'comida', color: '#e74c3c', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f34e.png' },
@@ -363,6 +389,7 @@
             btnCheck.className = 'w-full h-[64px] bg-secondary text-on-secondary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 hover:bg-on-secondary-fixed-variant transition-all';
             roundSubtitle.textContent = `Arrastra "${item.label}" al grupo correcto`;
             updateProgress(index);
+            setTimeout(function() { speakText(item.label); }, 300);
 
             document.querySelectorAll('.drop-category').forEach(z => {
                 z.classList.remove('border-secondary', 'bg-secondary-container/20');
@@ -613,6 +640,7 @@
                 this.innerHTML = '<span class="material-symbols-outlined filled-icon">celebration</span> ¡Correcto!';
                 this.className = 'w-full h-[64px] bg-on-secondary-container text-on-secondary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 transition-all';
                 if (navigator.vibrate) navigator.vibrate(80);
+                speakText('¡Correcto! ' + items[currentRound].label);
                 this.dataset.advancing = 'true';
                 setTimeout(() => {
                     this.disabled = false;

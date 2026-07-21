@@ -347,8 +347,31 @@
 
         var audioCtx = null;
         var audioCtxReady = false;
+        var audioUnlocked = false;
+
+        function unlockAudio() {
+            if (audioUnlocked) return;
+            audioUnlocked = true;
+            try {
+                var ctx = new (window.AudioContext || window.webkitAudioContext)();
+                ctx.resume();
+                ctx.close();
+            } catch(e) {}
+            checkTTS();
+        }
+
+        function checkTTS() {
+            if (typeof speechSynthesis === 'undefined') return;
+            if (speechSynthesis.getVoices().length > 0) return;
+            speechSynthesis.addEventListener('voiceschanged', function() {
+            }, { once: true });
+        }
+
+        document.addEventListener('touchstart', unlockAudio, { once: true });
+        document.addEventListener('click', unlockAudio, { once: true });
 
         function getAudioCtx() {
+            unlockAudio();
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
