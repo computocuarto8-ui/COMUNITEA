@@ -435,6 +435,46 @@
             }
         }
 
+        function handleDrop(zone) {
+            zone.classList.remove('drop-zone-active', 'border-primary', 'bg-primary-fixed/10');
+            if (placedCategory !== null) return;
+
+            placedCategory = zone.dataset.category;
+            draggable.style.display = 'none';
+            draggable.setAttribute('draggable', 'false');
+
+            const dropContent = zone.querySelector('.drop-hint');
+            if (dropContent) dropContent.style.display = 'none';
+
+            const item = items[currentRound];
+            const droppedEl = document.createElement('div');
+            droppedEl.className = 'dropped-item flex flex-col items-center gap-1 p-2 animate-pop';
+            droppedEl.innerHTML = `
+                <img class="w-16 h-16 object-contain drop-shadow-md" src="${item.src}" alt="${item.label}"/>
+                <span class="text-label-caps text-primary font-bold text-sm">${item.label}</span>
+            `;
+            const dropTarget = zone.querySelector('#dropzone-food') || zone;
+            dropTarget.appendChild(droppedEl);
+
+            zone.classList.add('border-secondary', 'bg-secondary-container/20');
+        }
+
+        function getDropZoneAtPoint(x, y) {
+            let found = null;
+            dropCategories.forEach(zone => {
+                const r = zone.getBoundingClientRect();
+                if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
+                    found = zone;
+                }
+            });
+            return found;
+        }
+
+        let touchDragClone = null;
+        let touchDragActive = false;
+        let touchDragW = 0;
+        let touchDragH = 0;
+
         draggable.addEventListener('dragstart', (e) => {
             if (placedCategory !== null) return;
             e.dataTransfer.setData('text/plain', 'item');
@@ -445,6 +485,73 @@
         draggable.addEventListener('dragend', (e) => {
             draggable.classList.remove('opacity-50');
             dropCategories.forEach(z => z.classList.remove('drop-zone-active', 'border-primary', 'bg-primary-fixed/10'));
+        });
+
+        draggable.addEventListener('touchstart', (e) => {
+            if (placedCategory !== null) return;
+            if (touchDragActive) return;
+            touchDragActive = true;
+            const touch = e.touches[0];
+
+            dropCategories.forEach(z => z.classList.add('drop-zone-active', 'border-primary', 'bg-primary-fixed/10'));
+
+            const rect = draggable.getBoundingClientRect();
+            touchDragW = rect.width;
+            touchDragH = rect.height;
+            touchDragClone = draggable.cloneNode(true);
+            touchDragClone.style.position = 'fixed';
+            touchDragClone.style.zIndex = '9999';
+            touchDragClone.style.pointerEvents = 'none';
+            touchDragClone.style.width = touchDragW + 'px';
+            touchDragClone.style.left = (touch.clientX - touchDragW / 2) + 'px';
+            touchDragClone.style.top = (touch.clientY - touchDragH / 2) + 'px';
+            touchDragClone.style.opacity = '0.85';
+            touchDragClone.style.transform = 'scale(1.05)';
+            touchDragClone.classList.remove('cursor-grab', 'active:cursor-grabbing');
+            document.body.appendChild(touchDragClone);
+            draggable.classList.add('opacity-50');
+        }, { passive: true });
+
+        draggable.addEventListener('touchmove', (e) => {
+            if (!touchDragActive || !touchDragClone) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+            touchDragClone.style.left = (touch.clientX - touchDragW / 2) + 'px';
+            touchDragClone.style.top = (touch.clientY - touchDragH / 2) + 'px';
+
+            dropCategories.forEach(z => {
+                z.classList.remove('scale-105', 'bg-secondary-container/30', 'border-secondary', 'bg-secondary-container/20');
+            });
+            const zone = getDropZoneAtPoint(touch.clientX, touch.clientY);
+            if (zone && placedCategory === null) {
+                zone.classList.add('scale-105', 'bg-secondary-container/30');
+            }
+        }, { passive: false });
+
+        function touchEndDrag(x, y) {
+            touchDragActive = false;
+            if (touchDragClone) {
+                touchDragClone.remove();
+                touchDragClone = null;
+            }
+            draggable.classList.remove('opacity-50');
+            dropCategories.forEach(z => {
+                z.classList.remove('drop-zone-active', 'border-primary', 'bg-primary-fixed/10', 'scale-105', 'bg-secondary-container/30');
+            });
+            if (placedCategory !== null) return;
+            const zone = getDropZoneAtPoint(x, y);
+            if (zone) {
+                handleDrop(zone);
+            }
+        }
+
+        draggable.addEventListener('touchend', (e) => {
+            const touch = e.changedTouches[0];
+            touchEndDrag(touch.clientX, touch.clientY);
+        });
+
+        draggable.addEventListener('touchcancel', () => {
+            touchEndDrag(0, 0);
         });
 
         dropCategories.forEach(zone => {
@@ -461,27 +568,7 @@
             zone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 zone.classList.remove('scale-105', 'bg-secondary-container/30');
-                zone.classList.remove('drop-zone-active', 'border-primary', 'bg-primary-fixed/10');
-                if (placedCategory !== null) return;
-
-                placedCategory = zone.dataset.category;
-                draggable.style.display = 'none';
-                draggable.setAttribute('draggable', 'false');
-
-                const dropContent = zone.querySelector('.drop-hint');
-                if (dropContent) dropContent.style.display = 'none';
-
-                const item = items[currentRound];
-                const droppedEl = document.createElement('div');
-                droppedEl.className = 'dropped-item flex flex-col items-center gap-1 p-2 animate-pop';
-                droppedEl.innerHTML = `
-                    <img class="w-16 h-16 object-contain drop-shadow-md" src="${item.src}" alt="${item.label}"/>
-                    <span class="text-label-caps text-primary font-bold text-sm">${item.label}</span>
-                `;
-                const dropTarget = zone.querySelector('#dropzone-food') || zone;
-                dropTarget.appendChild(droppedEl);
-
-                zone.classList.add('border-secondary', 'bg-secondary-container/20');
+                handleDrop(zone);
             });
         });
 

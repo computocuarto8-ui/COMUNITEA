@@ -253,11 +253,13 @@
             const current = textInput.value.trim();
             textInput.value = current ? current + ' ' + label : label;
             textInput.focus();
-            speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(label);
-            utterance.lang = 'es-ES';
-            utterance.rate = 1.0;
-            speechSynthesis.speak(utterance);
+            try {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(label);
+                utterance.lang = 'es-ES';
+                utterance.rate = 1.0;
+                speechSynthesis.speak(utterance);
+            } catch(e) {}
             if ('vibrate' in navigator) {
                 navigator.vibrate(50);
             }
@@ -293,11 +295,13 @@
         function speakSentence() {
             const text = textInput.value.trim();
             if (!text) return;
-            speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'es-ES';
-            utterance.rate = 1.0;
-            speechSynthesis.speak(utterance);
+            try {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                utterance.rate = 1.0;
+                speechSynthesis.speak(utterance);
+            } catch(e) {}
         }
     </script>
 </body></html>

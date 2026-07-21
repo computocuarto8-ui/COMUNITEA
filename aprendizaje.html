@@ -345,35 +345,116 @@
         var numerosList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
         var animalesList = ['Perro', 'Gato', 'Pájaro', 'Pez', 'Conejo', 'Vaca', 'Elefante', 'León', 'Mono', 'Mariposa'];
 
-        var bgCtx = null;
-        var bgPlaying = false;
-        var bgCategory = '';
-        var winCtx = null;
+        var audioCtx = null;
+        var audioCtxReady = false;
+
+        function getAudioCtx() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
 
         function playHappySound() {
             try {
-                if (winCtx) winCtx.close();
-                winCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var ctx = getAudioCtx();
                 var notes = [523.25, 659.25, 783.99, 1046.5];
                 notes.forEach(function(freq, i) {
-                    var osc = winCtx.createOscillator();
-                    var gain = winCtx.createGain();
+                    var osc = ctx.createOscillator();
+                    var gain = ctx.createGain();
                     osc.connect(gain);
-                    gain.connect(winCtx.destination);
+                    gain.connect(ctx.destination);
                     osc.type = 'sine';
                     osc.frequency.value = freq;
-                    gain.gain.setValueAtTime(0.2, winCtx.currentTime + i * 0.15);
-                    gain.gain.exponentialRampToValueAtTime(0.001, winCtx.currentTime + i * 0.15 + 0.5);
-                    osc.start(winCtx.currentTime + i * 0.15);
-                    osc.stop(winCtx.currentTime + i * 0.15 + 0.5);
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.15);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.15 + 0.5);
+                    osc.start(ctx.currentTime + i * 0.15);
+                    osc.stop(ctx.currentTime + i * 0.15 + 0.5);
                 });
             } catch(e) {}
         }
 
-        function playBgMusic(category) {
+        function playAnimalSound(name) {
             try {
-                if (bgCtx) bgCtx.close();
-                bgCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var ctx = getAudioCtx();
+                var now = ctx.currentTime;
+                function tone(freq, start, dur, type, vol) {
+                    var o = ctx.createOscillator();
+                    var g = ctx.createGain();
+                    o.connect(g);
+                    g.connect(ctx.destination);
+                    o.type = type || 'sine';
+                    o.frequency.setValueAtTime(freq, start);
+                    g.gain.setValueAtTime(vol || 0.15, start);
+                    g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+                    o.start(start);
+                    o.stop(start + dur);
+                }
+                switch (name) {
+                    case 'Perro':
+                        for (var i = 0; i < 4; i++) {
+                            tone(400 + i * 50, now + i * 0.12, 0.08, 'square', 0.12);
+                        }
+                        break;
+                    case 'Gato':
+                        tone(600, now, 0.15, 'sine', 0.1);
+                        tone(800, now + 0.1, 0.15, 'sine', 0.1);
+                        tone(500, now + 0.2, 0.25, 'sine', 0.08);
+                        break;
+                    case 'Vaca':
+                        tone(180, now, 0.3, 'sawtooth', 0.12);
+                        tone(150, now + 0.25, 0.35, 'sawtooth', 0.1);
+                        break;
+                    case 'León':
+                        tone(140, now, 0.4, 'sawtooth', 0.15);
+                        tone(110, now + 0.15, 0.6, 'sawtooth', 0.12);
+                        break;
+                    case 'Pájaro':
+                        for (var i = 0; i < 3; i++) {
+                            tone(1200 + i * 200, now + i * 0.08, 0.06, 'sine', 0.08);
+                        }
+                        break;
+                    case 'Elefante':
+                        tone(200, now, 0.5, 'sawtooth', 0.15);
+                        tone(160, now + 0.2, 0.4, 'square', 0.1);
+                        break;
+                    case 'Mono':
+                        for (var i = 0; i < 5; i++) {
+                            tone(700 + i * 100, now + i * 0.07, 0.05, 'triangle', 0.1);
+                        }
+                        break;
+                    case 'Pez':
+                        for (var i = 0; i < 4; i++) {
+                            tone(900 + Math.random() * 400, now + i * 0.1, 0.06, 'sine', 0.06);
+                        }
+                        break;
+                    case 'Conejo':
+                        tone(300, now, 0.05, 'sine', 0.08);
+                        setTimeout(function() {
+                            if (!audioCtx) return;
+                            tone(350, audioCtx.currentTime, 0.05, 'sine', 0.08);
+                        }, 150);
+                        break;
+                    case 'Mariposa':
+                        for (var i = 0; i < 6; i++) {
+                            tone(1000 + (i % 2) * 300, now + i * 0.06, 0.04, 'sine', 0.05);
+                        }
+                        break;
+                }
+            } catch(e) {}
+        }
+
+        var bgPlaying = false;
+        var bgCategory = '';
+        var bgTimer = null;
+
+        function playBgMusic(category) {
+            stopBgMusic();
+            try {
+                var ctx = getAudioCtx();
                 bgPlaying = true;
                 bgCategory = category;
 
@@ -388,31 +469,33 @@
                     melody = [261.63, 293.66, 329.63, 293.66, 261.63, 246.94, 220.00, 246.94];
                     tempo = 1000;
                 }
+                var noteIndex = 0;
 
-                function playNote(noteIndex, time) {
-                    if (!bgPlaying || !bgCtx || bgCategory !== category) return;
+                function playNext() {
+                    if (!bgPlaying || !audioCtx || bgCategory !== category) return;
+                    var ctx2 = audioCtx;
                     var freq = melody[noteIndex % melody.length];
-                    var osc = bgCtx.createOscillator();
-                    var gain = bgCtx.createGain();
+                    var osc = ctx2.createOscillator();
+                    var gain = ctx2.createGain();
                     osc.connect(gain);
-                    gain.connect(bgCtx.destination);
+                    gain.connect(ctx2.destination);
                     osc.type = 'sine';
-                    osc.frequency.value = freq;
-                    gain.gain.setValueAtTime(0.04, time);
-                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.6);
-                    osc.start(time);
-                    osc.stop(time + 0.6);
-                    setTimeout(function() {
-                        if (bgPlaying && bgCategory === category) playNote(noteIndex + 1, bgCtx.currentTime);
-                    }, tempo - 200);
+                    osc.frequency.setValueAtTime(freq, ctx2.currentTime);
+                    gain.gain.setValueAtTime(0.04, ctx2.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx2.currentTime + 0.6);
+                    osc.start(ctx2.currentTime);
+                    osc.stop(ctx2.currentTime + 0.6);
+                    noteIndex++;
+                    bgTimer = setTimeout(playNext, tempo - 200);
                 }
-                playNote(0, bgCtx.currentTime);
+                playNext();
             } catch(e) {}
         }
 
         function stopBgMusic() {
             bgPlaying = false;
-            if (bgCtx) { bgCtx.close(); bgCtx = null; }
+            bgCategory = '';
+            if (bgTimer) { clearTimeout(bgTimer); bgTimer = null; }
         }
 
         function switchCategory(category) {
@@ -496,41 +579,30 @@
         }
 
         function speak(text) {
-            speechSynthesis.cancel();
-            var utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'es-ES';
-            utterance.rate = 1.0;
-            speechSynthesis.speak(utterance);
+            try {
+                speechSynthesis.cancel();
+                var utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                utterance.rate = 1.0;
+                speechSynthesis.speak(utterance);
+            } catch(e) {}
             if ('vibrate' in navigator) {
                 navigator.vibrate(30);
             }
         }
 
-        const animalSounds = {
-            'Perro': 'https://www.soundjay.com/animal/dog-barking-1.mp3',
-            'Gato': 'https://www.soundjay.com/animal/cat-meow-1.mp3',
-            'Vaca': 'https://www.soundjay.com/animal/cow-moo-1.mp3',
-            'León': 'https://www.soundjay.com/animal/lion-roar-1.mp3',
-            'Pájaro': 'https://www.soundjay.com/animal/bird-chirp-1.mp3',
-            'Elefante': 'https://www.soundjay.com/animal/elephant-trumpet-1.mp3',
-            'Mono': null,
-            'Pez': null,
-            'Conejo': null,
-            'Mariposa': null
-        };
-
         function speakAnimal(name) {
-            speechSynthesis.cancel();
-            var utterance = new SpeechSynthesisUtterance(name);
-            utterance.lang = 'es-ES';
-            utterance.rate = 1.0;
-            utterance.onend = function() {
-                var url = animalSounds[name];
-                if (url) {
-                    new Audio(url).play().catch(function() {});
-                }
-            };
-            speechSynthesis.speak(utterance);
+            try {
+                getAudioCtx();
+                speechSynthesis.cancel();
+                var utterance = new SpeechSynthesisUtterance(name);
+                utterance.lang = 'es-ES';
+                utterance.rate = 1.0;
+                utterance.onend = function() {
+                    playAnimalSound(name);
+                };
+                speechSynthesis.speak(utterance);
+            } catch(e) {}
             if ('vibrate' in navigator) {
                 navigator.vibrate(30);
             }
