@@ -3,9 +3,7 @@
 <html class="light" lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&amp;family=Atkinson+Hyperlegible+Next:wght@700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@100..900&amp;family=Atkinson+Hyperlegible+Next:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
       tailwind.config = {
@@ -116,12 +114,10 @@
         .modal-overlay {
             transition: opacity 0.3s ease;
         }
+        body {
+            min-height: max(884px, 100dvh);
+        }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
   </head>
 <body class="font-body-md text-on-surface">
 <!-- TopAppBar -->
@@ -149,30 +145,30 @@
 <!-- Emotions Gallery - Bento Grid -->
 <section class="px-container-padding grid grid-cols-2 gap-gutter">
 <!-- Feliz -->
-<div class="emotion-card bg-secondary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-secondary" onclick="openEmotion('Feliz', 'bg-secondary-container', 'A high-contrast digital illustration of a cheerful, smiling face with bright, sparkling eyes and rosy cheeks. The style is soft minimalist with rounded shapes and thick lines, using a palette of vibrant greens and yellows. The lighting is warm and sunny, creating a safe and welcoming atmosphere for children.')">
+<div class="emotion-card bg-secondary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-secondary" onclick="openEmotion('Feliz', 'bg-secondary-container')">
 <div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-secondary-fixed-variant">
-<img class="w-full h-full object-cover" data-alt="A high-contrast digital illustration of a cheerful, smiling face with bright, sparkling eyes and rosy cheeks. The style is soft minimalist with rounded shapes and thick lines, using a palette of vibrant greens and yellows. The lighting is warm and sunny, creating a safe and welcoming atmosphere for children." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYiwHmlEYFpFLiDvohwiGi9rjAXtgWpxKdIFZHB_xUu3lSuTM0fX2Y47oui3DTAX1PSNnaFlYuzbcOV6cwbKD2f_gi9liFoVKdsNJD-WBJcn2kror9BctQ0Uw3w9xH9EP06xavrEB9mJkYBmRdVeOEU44NOukFi94j-S18Le83_SiQzIpEoA_q6jnCR1AzE4oX96JUNy6hRC6guFm1wHLt41vDCGtK_alUSI6BtCEcyisv2gMpixT44w"/>
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYiwHmlEYFpFLiDvohwiGi9rjAXtgWpxKdIFZHB_xUu3lSuTM0fX2Y47oui3DTAX1PSNnaFlYuzbcOV6cwbKD2f_gi9liFoVKdsNJD-WBJcn2kror9BctQ0Uw3w9xH9EP06xavrEB9mJkYBmRdVeOEU44NOukFi94j-S18Le83_SiQzIpEoA_q6jnCR1AzE4oX96JUNy6hRC6guFm1wHLt41vDCGtK_alUSI6BtCEcyisv2gMpixT44w"/>
 </div>
 <span class="font-label-caps text-label-caps text-on-secondary-container">FELIZ</span>
 </div>
 <!-- Triste -->
-<div class="emotion-card bg-primary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-primary" onclick="openEmotion('Triste', 'bg-primary-container', 'A gentle digital illustration of a sad face with a soft, downturned mouth and a single teardrop on a blue-toned background. The art style is tactile and rounded, avoiding sharp edges to maintain a calming environment. The color palette features soothing blues and soft grays under cool, diffused lighting.')">
+<div class="emotion-card bg-primary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-primary" onclick="openEmotion('Triste', 'bg-primary-container')">
 <div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-primary-fixed-variant">
-<img class="w-full h-full object-cover" data-alt="A gentle digital illustration of a sad face with a soft, downturned mouth and a single teardrop on a blue-toned background. The art style is tactile and rounded, avoiding sharp edges to maintain a calming environment. The color palette features soothing blues and soft grays under cool, diffused lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSU7s0I0SVIdwxn0Cg39IZqmhLuK_nYpA8wLS_UnkJVYNsjRPlDhTGS46Q_QKc_MzLzgrvMLjgLFqKdKsjUgr-Wr9RsZHp0YERqJak_u7IDVJad--_hgC7Jtnxhno5pV4bRvOSR-bJ6tazYcJpZ822Z96IrWmcClYijKYtQ1WbRY9QvHEv2VGOorGjdrgfuChdoJULWllyzM86oFBJlGbBNZ0P_1uosMcBCeQYyV29Vli-E8gweor0Nw"/>
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSU7s0I0SVIdwxn0Cg39IZqmhLuK_nYpA8wLS_UnkJVYNsjRPlDhTGS46Q_QKc_MzLzgrvMLjgLFqKdKsjUgr-Wr9RsZHp0YERqJak_u7IDVJad--_hgC7Jtnxhno5pV4bRvOSR-bJ6tazYcJpZ822Z96IrWmcClYijKYtQ1WbRY9QvHEv2VGOorGjdrgfuChdoJULWllyzM86oFBJlGbBNZ0P_1uosMcBCeQYyV29Vli-E8gweor0Nw"/>
 </div>
 <span class="font-label-caps text-label-caps text-on-primary-container">TRISTE</span>
 </div>
 <!-- Enojado -->
-<div class="emotion-card bg-error-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-error" onclick="openEmotion('Enojado', 'bg-error-container', 'A representational digital illustration of an angry face with furrowed brows and a slightly pouting mouth. The design uses soft, rounded features and thick 2pt monoline strokes to remain non-threatening. Colors include earthy reds and warm oranges, with flat, high-contrast lighting that ensures total legibility.')">
+<div class="emotion-card bg-error-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-error" onclick="openEmotion('Enojado', 'bg-error-container')">
 <div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-error-container">
-<img class="w-full h-full object-cover" data-alt="A representational digital illustration of an angry face with furrowed brows and a slightly pouting mouth. The design uses soft, rounded features and thick 2pt monoline strokes to remain non-threatening. Colors include earthy reds and warm oranges, with flat, high-contrast lighting that ensures total legibility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzKgus8n6xYcrs3BZBJZf1mMF0i2W9ni-vQga9foCJfQGAVQzCaYSZsVyZOohZmKckFke8Faav-VaWy7U_b44ZdcCKxDdmXlNBjcNzYsQPGx1BczlkzW1Z8OoRdUPdPpql5fqRQIvdW_1-pkpXU01Gnl4FuhP7p0lHdmKfE3w9Qf3dyI4qtBL3dBkadGdaly34GwPuA1ASBhhZaSJosN8kZD00GwLKzXr6Ox1o0fUdvPsMjChrj2yc3w"/>
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzKgus8n6xYcrs3BZBJZf1mMF0i2W9ni-vQga9foCJfQGAVQzCaYSZsVyZOohZmKckFke8Faav-VaWy7U_b44ZdcCKxDdmXlNBjcNzYsQPGx1BczlkzW1Z8OoRdUPdPpql5fqRQIvdW_1-pkpXU01Gnl4FuhP7p0lHdmKfE3w9Qf3dyI4qtBL3dBkadGdaly34GwPuA1ASBhhZaSJosN8kZD00GwLKzXr6Ox1o0fUdvPsMjChrj2yc3w"/>
 </div>
 <span class="font-label-caps text-label-caps text-on-error-container">ENOJADO</span>
 </div>
 <!-- Calmado -->
-<div class="emotion-card bg-tertiary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-tertiary" onclick="openEmotion('Calmado', 'bg-tertiary-container', 'A serene digital illustration of a calm face with closed eyes and a peaceful, neutral expression. The style is minimalist and clean, utilizing a soothing palette of soft yellows and cream colors. The lighting is soft and atmospheric, designed to reduce sensory overload and provide a sense of safety and quiet.')">
+<div class="emotion-card bg-tertiary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-tertiary" onclick="openEmotion('Calmado', 'bg-tertiary-container')">
 <div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-tertiary-fixed-variant">
-<img class="w-full h-full object-cover" data-alt="A serene digital illustration of a calm face with closed eyes and a peaceful, neutral expression. The style is minimalist and clean, utilizing a soothing palette of soft yellows and cream colors. The lighting is soft and atmospheric, designed to reduce sensory overload and provide a sense of safety and quiet." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV8GOswRYfaMUXl1CWmGiUl6QFMmAKfasHmAOAj-GpE9S8k3BwS_tZDgvnX57-IZW3fZnBiu1rlDVArUpGh6AJXoTD1McVxR0luQ6dTqtuVqRoyaCDY11uDBGY4qkBjFPGD5dBp2JIVtP4X_g03_iSsZY-SMvGsq1jOWCliC0_tvTObfTBqososjlNorsnnG9GqDcZffYhRs8ysLyaW4VTDMhkSHlpJNr8LPXX66Aj5Tk-IE3hRwPEfw"/>
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV8GOswRYfaMUXl1CWmGiUl6QFMmAKfasHmAOAj-GpE9S8k3BwS_tZDgvnX57-IZW3fZnBiu1rlDVArUpGh6AJXoTD1McVxR0luQ6dTqtuVqRoyaCDY11uDBGY4qkBjFPGD5dBp2JIVtP4X_g03_iSsZY-SMvGsq1jOWCliC0_tvTObfTBqososjlNorsnnG9GqDcZffYhRs8ysLyaW4VTDMhkSHlpJNr8LPXX66Aj5Tk-IE3hRwPEfw"/>
 </div>
 <span class="font-label-caps text-label-caps text-on-tertiary-container">CALMADO</span>
 </div>
@@ -197,7 +193,7 @@
 <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeEmotion()"></div>
 <div class="relative w-full max-w-md bg-surface rounded-2xl p-6 border-4 border-primary shadow-2xl flex flex-col items-center gap-stack-md transform scale-90 opacity-0 transition-all duration-300" id="modalContent">
 <div class="w-full aspect-square rounded-xl overflow-hidden border-2 border-surface-variant" id="modalImageContainer">
-<img class="w-full h-full object-cover" data-alt="Default placeholder for emotional focus" id="modalImage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJWkpqsPLByePK3-zCeiqpqLO8o-vC5jYbtEsXaSzWRwssc3doow9uqCgb9jXz9fcqbtiZENMyViNKLwVcVUsYnY-7vZhxzivmpMr2x1wDRBDuy_4atYPY_fn0Le1y-PNuttpo4DfJSbxL3DgAG0XLZgyGJENT0t7oo-mDFVONtUNrhpiH7zy_xFfzANtVh97J3STJjJiew3sn9fHru6DUE3mgeAJBqyW6nRty6kU4dhfc7VCK_VjUzA"/>
+<img class="w-full h-full object-cover" id="modalImage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJWkpqsPLByePK3-zCeiqpqLO8o-vC5jYbtEsXaSzWRwssc3doow9uqCgb9jXz9fcqbtiZENMyViNKLwVcVUsYnY-7vZhxzivmpMr2x1wDRBDuy_4atYPY_fn0Le1y-PNuttpo4DfJSbxL3DgAG0XLZgyGJENT0t7oo-mDFVONtUNrhpiH7zy_xFfzANtVh97J3STJjJiew3sn9fHru6DUE3mgeAJBqyW6nRty6kU4dhfc7VCK_VjUzA"/>
 </div>
 <h2 class="font-headline-lg-mobile text-[48px] leading-tight text-primary uppercase tracking-wider" id="modalTitle">FELIZ</h2>
 <button class="tactile-button w-full h-[64px] bg-primary text-on-primary rounded-xl font-headline-md text-headline-md flex items-center justify-center gap-2" onclick="closeEmotion()">
@@ -237,34 +233,43 @@
             audioUnlocked = true;
             try {
                 var ctx = new (window.AudioContext || window.webkitAudioContext)();
-                ctx.resume();
+                var buf = ctx.createBuffer(1, 1, 22050);
+                var src = ctx.createBufferSource();
+                src.buffer = buf;
+                src.connect(ctx.destination);
+                src.start(0);
+                if (ctx.state === 'suspended') ctx.resume();
                 ctx.close();
             } catch(e) {}
         }
 
         function speakText(text) {
             if (!text) return;
-            try {
-                speechSynthesis.cancel();
-                var utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'es-ES';
-                utterance.rate = 1.0;
-                speechSynthesis.speak(utterance);
-            } catch(e) {}
+            if (typeof speechSynthesis !== 'undefined') {
+                try {
+                    speechSynthesis.cancel();
+                    var utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'es-ES';
+                    utterance.rate = 1.0;
+                    speechSynthesis.speak(utterance);
+                } catch(e) {}
+            }
+            if ('vibrate' in navigator) {
+                navigator.vibrate(30);
+            }
         }
 
         document.addEventListener('touchstart', unlockAudio, { once: true });
         document.addEventListener('click', unlockAudio, { once: true });
+        document.addEventListener('pointerdown', unlockAudio, { once: true });
 
-        function openEmotion(label, bgColor, altText) {
+        function openEmotion(label, bgColor) {
             const modal = document.getElementById('emotionModal');
             const content = document.getElementById('modalContent');
             const title = document.getElementById('modalTitle');
             const img = document.getElementById('modalImage');
 
-            // Set content
             title.textContent = label;
-            img.setAttribute('data-alt', altText);
             speakText('Me siento ' + label);
             
             // Clean classes and apply dynamic ones

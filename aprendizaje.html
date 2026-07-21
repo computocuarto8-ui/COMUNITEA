@@ -5,9 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>ComuniTEA - Aprendizaje</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@100..900&family=Quicksand:wght@100..900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@100..900&amp;family=Atkinson+Hyperlegible+Next:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -128,12 +126,10 @@
             z-index: 1000;
             pointer-events: none;
         }
+        body {
+            min-height: max(884px, 100dvh);
+        }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
   </head>
 <body class="font-body-md text-on-background min-h-screen flex flex-col pb-24">
 <!-- TopAppBar Shell -->
@@ -346,37 +342,41 @@
         var animalesList = ['Perro', 'Gato', 'Pájaro', 'Pez', 'Conejo', 'Vaca', 'Elefante', 'León', 'Mono', 'Mariposa'];
 
         var audioCtx = null;
-        var audioCtxReady = false;
         var audioUnlocked = false;
 
         function unlockAudio() {
             if (audioUnlocked) return;
             audioUnlocked = true;
             try {
-                var ctx = new (window.AudioContext || window.webkitAudioContext)();
-                ctx.resume();
-                ctx.close();
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var buf = audioCtx.createBuffer(1, 1, 22050);
+                var src = audioCtx.createBufferSource();
+                src.buffer = buf;
+                src.connect(audioCtx.destination);
+                src.start(0);
+                if (audioCtx.state === 'suspended') audioCtx.resume();
             } catch(e) {}
-            checkTTS();
         }
 
         function checkTTS() {
-            if (typeof speechSynthesis === 'undefined') return;
-            if (speechSynthesis.getVoices().length > 0) return;
-            speechSynthesis.addEventListener('voiceschanged', function() {
-            }, { once: true });
+            if (typeof speechSynthesis !== 'undefined') {
+                try { speechSynthesis.getVoices(); } catch(e) {}
+            }
         }
 
         document.addEventListener('touchstart', unlockAudio, { once: true });
         document.addEventListener('click', unlockAudio, { once: true });
+        document.addEventListener('pointerdown', unlockAudio, { once: true });
 
         function getAudioCtx() {
             unlockAudio();
             if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                try {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                } catch(e) { return null; }
             }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume().catch(function(){});
             }
             return audioCtx;
         }
@@ -602,30 +602,38 @@
         }
 
         function speak(text) {
-            try {
-                speechSynthesis.cancel();
-                var utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'es-ES';
-                utterance.rate = 1.0;
-                speechSynthesis.speak(utterance);
-            } catch(e) {}
+            if (typeof speechSynthesis !== 'undefined') {
+                try {
+                    speechSynthesis.cancel();
+                    var utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'es-ES';
+                    utterance.rate = 1.0;
+                    speechSynthesis.speak(utterance);
+                } catch(e) {}
+            }
             if ('vibrate' in navigator) {
                 navigator.vibrate(30);
             }
         }
 
         function speakAnimal(name) {
-            try {
-                getAudioCtx();
-                speechSynthesis.cancel();
-                var utterance = new SpeechSynthesisUtterance(name);
-                utterance.lang = 'es-ES';
-                utterance.rate = 1.0;
-                utterance.onend = function() {
+            getAudioCtx();
+            if (typeof speechSynthesis !== 'undefined') {
+                try {
+                    speechSynthesis.cancel();
+                    var utterance = new SpeechSynthesisUtterance(name);
+                    utterance.lang = 'es-ES';
+                    utterance.rate = 1.0;
+                    utterance.onend = function() {
+                        playAnimalSound(name);
+                    };
+                    speechSynthesis.speak(utterance);
+                } catch(e) {
                     playAnimalSound(name);
-                };
-                speechSynthesis.speak(utterance);
-            } catch(e) {}
+                }
+            } else {
+                playAnimalSound(name);
+            }
             if ('vibrate' in navigator) {
                 navigator.vibrate(30);
             }

@@ -5,9 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>ComuniTEA - Juego de Emparejar</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@100..900&family=Quicksand:wght@100..900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@100..900&amp;family=Atkinson+Hyperlegible+Next:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
@@ -52,6 +50,9 @@
         @keyframes confettiFall {
             0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
             100% { transform: translateY(100vh) rotate(720deg) scale(0.5); opacity: 0; }
+        }
+        body {
+            min-height: max(884px, 100dvh);
         }
     </style>
 <script id="tailwind-config">
@@ -142,11 +143,6 @@
           },
         }
     </script>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
   </head>
 <body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
 <!-- TopAppBar -->
@@ -261,24 +257,35 @@
             audioUnlocked = true;
             try {
                 var ctx = new (window.AudioContext || window.webkitAudioContext)();
-                ctx.resume();
+                var buf = ctx.createBuffer(1, 1, 22050);
+                var src = ctx.createBufferSource();
+                src.buffer = buf;
+                src.connect(ctx.destination);
+                src.start(0);
+                if (ctx.state === 'suspended') ctx.resume();
                 ctx.close();
             } catch(e) {}
         }
 
         function speakText(text) {
             if (!text) return;
-            try {
-                speechSynthesis.cancel();
-                var utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'es-ES';
-                utterance.rate = 1.0;
-                speechSynthesis.speak(utterance);
-            } catch(e) {}
+            if (typeof speechSynthesis !== 'undefined') {
+                try {
+                    speechSynthesis.cancel();
+                    var utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'es-ES';
+                    utterance.rate = 1.0;
+                    speechSynthesis.speak(utterance);
+                } catch(e) {}
+            }
+            if ('vibrate' in navigator) {
+                navigator.vibrate(30);
+            }
         }
 
         document.addEventListener('touchstart', unlockAudio, { once: true });
         document.addEventListener('click', unlockAudio, { once: true });
+        document.addEventListener('pointerdown', unlockAudio, { once: true });
 
         const allItems = [
             // Comida (10)

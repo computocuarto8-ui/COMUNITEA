@@ -5,9 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>ComuniTEA - Tablero de Comunicación</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@100..900&family=Quicksand:wght@100..900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@100..900&amp;family=Atkinson+Hyperlegible+Next:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -116,12 +114,10 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
         }
+        body {
+            min-height: max(884px, 100dvh);
+        }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
   </head>
 <body class="font-body-md text-on-background min-h-screen flex flex-col pb-24">
 <!-- TopAppBar Shell -->
@@ -249,7 +245,12 @@
             audioUnlocked = true;
             try {
                 var ctx = new (window.AudioContext || window.webkitAudioContext)();
-                ctx.resume();
+                var buf = ctx.createBuffer(1, 1, 22050);
+                var src = ctx.createBufferSource();
+                src.buffer = buf;
+                src.connect(ctx.destination);
+                src.start(0);
+                if (ctx.state === 'suspended') ctx.resume();
                 ctx.close();
             } catch(e) {}
             checkTTS();
@@ -261,15 +262,21 @@
                 return;
             }
             ttsAvailable = true;
-            if (speechSynthesis.getVoices().length > 0) return;
-            speechSynthesis.addEventListener('voiceschanged', function() {
-                if (speechSynthesis.getVoices().length > 0) ttsAvailable = true;
-            }, { once: true });
-            setTimeout(function() {
-                if (speechSynthesis.getVoices().length === 0) {
-                    showTTSWarning();
-                }
-            }, 3000);
+            try {
+                if (speechSynthesis.getVoices().length > 0) return;
+                speechSynthesis.addEventListener('voiceschanged', function() {
+                    try { if (speechSynthesis.getVoices().length > 0) ttsAvailable = true; } catch(e) {}
+                }, { once: true });
+                setTimeout(function() {
+                    try {
+                        if (speechSynthesis.getVoices().length === 0) {
+                            showTTSWarning();
+                        }
+                    } catch(e) {}
+                }, 3000);
+            } catch(e) {
+                showTTSWarning();
+            }
         }
 
         function showTTSWarning() {
@@ -282,19 +289,25 @@
 
         function speakText(text) {
             if (!text) return;
-            try {
-                speechSynthesis.cancel();
-                var utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'es-ES';
-                utterance.rate = 1.0;
-                speechSynthesis.speak(utterance);
-            } catch(e) {
-                showTTSWarning();
+            if (typeof speechSynthesis !== 'undefined') {
+                try {
+                    speechSynthesis.cancel();
+                    var utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'es-ES';
+                    utterance.rate = 1.0;
+                    speechSynthesis.speak(utterance);
+                } catch(e) {
+                    showTTSWarning();
+                }
+            }
+            if ('vibrate' in navigator) {
+                navigator.vibrate(30);
             }
         }
 
         document.addEventListener('touchstart', unlockAudio, { once: true });
         document.addEventListener('click', unlockAudio, { once: true });
+        document.addEventListener('pointerdown', unlockAudio, { once: true });
 
         const textInput = document.getElementById('text-input');
 
@@ -308,7 +321,6 @@
         function addToSentence(label) {
             const current = textInput.value.trim();
             textInput.value = current ? current + ' ' + label : label;
-            textInput.focus();
             speakText(label);
             if ('vibrate' in navigator) {
                 navigator.vibrate(50);
