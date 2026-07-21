@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CalmComm - Juego de Emparejar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@100..900&family=Quicksand:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        .tactile-button {
+            box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.1);
+        }
+        .tactile-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.1);
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 20px rgba(25, 28, 28, 0.05);
+        }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(0.98); }
+        }
+        .drop-zone-active {
+            border-style: dashed;
+            animation: pulse-soft 2s infinite ease-in-out;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.3s ease-out forwards;
+        }
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            z-index: 60;
+            pointer-events: none;
+            animation: confettiFall linear forwards;
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg) scale(0.5); opacity: 0; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-container": "#007348",
+                      "secondary-fixed": "#97f6be",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary": "#006d43",
+                      "surface-variant": "#e1e3e3",
+                      "on-primary-fixed": "#001e2f",
+                      "surface": "#f8f9f9",
+                      "surface-dim": "#d9dada",
+                      "on-tertiary-container": "#463a00",
+                      "tertiary-container": "#bca43d",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#221b00",
+                      "tertiary-fixed": "#fde274",
+                      "surface-container": "#edeeee",
+                      "background": "#f8f9f9",
+                      "surface-container-highest": "#e1e3e3",
+                      "on-secondary-fixed": "#002111",
+                      "surface-bright": "#f8f9f9",
+                      "error": "#ba1a1a",
+                      "on-surface": "#191c1c",
+                      "primary-fixed-dim": "#8aceff",
+                      "tertiary-fixed-dim": "#dfc65b",
+                      "primary-container": "#5dade2",
+                      "tertiary": "#6f5d00",
+                      "on-error-container": "#93000a",
+                      "surface-container-high": "#e7e8e8",
+                      "on-primary-fixed-variant": "#004b6f",
+                      "inverse-surface": "#2e3131",
+                      "on-secondary": "#ffffff",
+                      "primary": "#006491",
+                      "on-surface-variant": "#40484f",
+                      "on-tertiary-fixed-variant": "#544600",
+                      "outline": "#707880",
+                      "inverse-on-surface": "#f0f1f1",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "on-background": "#191c1c",
+                      "surface-tint": "#006491",
+                      "secondary-container": "#97f6be",
+                      "on-primary-container": "#003f5d",
+                      "surface-container-low": "#f3f4f4",
+                      "secondary-fixed-dim": "#7bd9a4",
+                      "inverse-primary": "#8aceff",
+                      "outline-variant": "#bfc7d0",
+                      "error-container": "#ffdad6",
+                      "primary-fixed": "#c9e6ff",
+                      "on-secondary-fixed-variant": "#005231"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-padding": "24px",
+                      "stack-lg": "40px",
+                      "stack-md": "24px",
+                      "gutter": "16px",
+                      "stack-sm": "12px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "label-caps": ["Atkinson Hyperlegible Next"],
+                      "headline-lg": ["Quicksand"],
+                      "headline-md": ["Quicksand"],
+                      "body-lg": ["Quicksand"],
+                      "headline-lg-mobile": ["Quicksand"],
+                      "body-md": ["Quicksand"]
+              },
+              "fontSize": {
+                      "label-caps": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim border-b-2 border-surface-variant dark:border-outline-variant flex justify-between items-center w-full px-container-padding py-4 sticky top-0 z-40">
+<button class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">CalmComm</h1>
+<button class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+</header>
+<main class="flex-grow container mx-auto max-w-lg px-container-padding pt-stack-md pb-32">
+<!-- Progress Bar Section -->
+<section class="mb-stack-lg">
+<div class="flex justify-between items-center mb-unit">
+<span class="font-label-caps text-label-caps text-on-surface-variant">PROGRESO</span>
+<span class="font-label-caps text-label-caps text-primary" id="progress-text">0 de 6</span>
+</div>
+<div class="flex gap-2 h-4 w-full" id="progress-dots"></div>
+</section>
+<!-- Instruction Section -->
+<section class="mb-stack-md text-center">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface" id="round-title">¿A qué categoría pertenece?</h2>
+<p class="text-body-md text-on-surface-variant mt-2" id="round-subtitle">Arrastra el objeto al grupo correcto</p>
+</section>
+<!-- Game Canvas: Asymmetric Bento Style -->
+<div class="grid grid-cols-2 gap-gutter">
+<!-- Target Categories (The Buckets) -->
+<div class="col-span-2 bg-surface-container-low border-2 border-outline-variant rounded-xl p-stack-sm flex flex-col items-center justify-center min-h-[140px] transition-all card-shadow drop-category" data-category="comida" id="category-food">
+<span class="material-symbols-outlined text-4xl text-on-tertiary-container mb-2" data-icon="restaurant">restaurant</span>
+<p class="font-headline-md text-headline-md text-on-tertiary-container">Comida</p>
+<div class="w-full mt-4 min-h-[64px] border-2 border-dashed border-outline-variant rounded-lg flex items-center justify-center bg-white/50 transition-all" id="dropzone-food">
+<span class="text-label-caps text-outline italic drop-hint">Suelta aquí</span>
+</div>
+</div>
+<div class="bg-surface-container-low border-2 border-outline-variant rounded-xl p-stack-sm flex flex-col items-center justify-center min-h-[140px] transition-all card-shadow drop-category" data-category="juguetes" id="category-toys">
+<span class="material-symbols-outlined text-4xl text-on-primary-fixed-variant mb-2" data-icon="toys">toys</span>
+<p class="font-headline-md text-headline-md text-on-primary-fixed-variant">Juguetes</p>
+</div>
+<div class="bg-surface-container-low border-2 border-outline-variant rounded-xl p-stack-sm flex flex-col items-center justify-center min-h-[140px] transition-all card-shadow drop-category" data-category="ropa" id="category-clothes">
+<span class="material-symbols-outlined text-4xl text-on-secondary-fixed-variant mb-2" data-icon="checkroom">checkroom</span>
+<p class="font-headline-md text-headline-md text-on-secondary-fixed-variant">Ropa</p>
+</div>
+<!-- The Draggable Object Card -->
+<div class="col-span-2 flex justify-center mt-stack-md">
+<div class="group cursor-grab active:cursor-grabbing w-48 h-56 bg-surface-container-lowest border-2 border-primary rounded-xl p-stack-sm flex flex-col items-center justify-between card-shadow transition-transform hover:scale-105 active:scale-95 tactile-button" draggable="true" id="draggable-item">
+<div class="flex-grow flex items-center justify-center w-full bg-primary-fixed/20 rounded-lg overflow-hidden mb-4">
+<img class="w-28 h-28 object-contain drop-shadow-md" id="item-image" src="" alt=""/>
+</div>
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-primary text-center pb-2" id="item-label">Manzana</p>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-gutter mt-stack-lg">
+<button class="w-full h-[64px] bg-secondary text-on-secondary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 hover:bg-on-secondary-fixed-variant transition-all" id="btn-check">
+<span class="material-symbols-outlined filled-icon" data-icon="check_circle">check_circle</span>
+                Comprobar
+            </button>
+<button class="w-full h-[56px] bg-surface-variant text-on-surface-variant rounded-xl font-headline-md text-headline-md border-2 border-outline-variant tactile-button transition-all" id="btn-skip">
+                Omitir
+            </button>
+</div>
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-container-padding" id="complete-modal">
+<div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+<div class="confetti-container" id="confetti-box"></div>
+<div class="relative w-full max-w-md bg-gradient-to-b from-surface to-primary-fixed/20 rounded-2xl p-8 border-4 border-secondary shadow-2xl flex flex-col items-center gap-stack-md text-center overflow-hidden">
+<div class="absolute inset-0 pointer-events-none" id="confetti-layer"></div>
+<span class="material-symbols-outlined text-8xl text-secondary drop-shadow-lg relative z-10" style="font-variation-settings: 'FILL' 1;" id="modal-icon">emoji_events</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface relative z-10" id="modal-title">¡Felicidades!</h2>
+<div class="flex flex-col items-center gap-1 text-body-md text-on-surface-variant relative z-10" id="result-text">0/9</div>
+<a class="w-full h-[56px] bg-primary text-on-primary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 mt-4 relative z-10 hover:bg-primary-fixed-variant transition-all" href="ejercicios.html">
+<span class="material-symbols-outlined">replay</span>
+                    Jugar de nuevo
+                </a>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-inverse-surface border-t-2 border-surface-variant dark:border-outline-variant shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="index.html">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps">Inicio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="tablero_comunicacion.html">
+<span class="material-symbols-outlined mb-1" data-icon="grid_view">grid_view</span>
+<span class="font-label-caps text-label-caps">Palabras</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="emociones.html">
+<span class="material-symbols-outlined mb-1" data-icon="mood">mood</span>
+<span class="font-label-caps text-label-caps">Emociones</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="ejercicios.html">
+<span class="material-symbols-outlined mb-1 filled-icon" data-icon="extension">extension</span>
+<span class="font-label-caps text-label-caps">Jugar</span>
+</a>
+</nav>
+    <script>
+        const allItems = [
+            // Comida (10)
+            { label: 'Manzana', category: 'comida', color: '#e74c3c', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f34e.png' },
+            { label: 'Galleta', category: 'comida', color: '#d4a017', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f36a.png' },
+            { label: 'Plátano', category: 'comida', color: '#f1c40f', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f34c.png' },
+            { label: 'Sandía', category: 'comida', color: '#2ecc71', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f349.png' },
+            { label: 'Leche', category: 'comida', color: '#bdc3c7', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f95b.png' },
+            { label: 'Queso', category: 'comida', color: '#f39c12', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9c0.png' },
+            { label: 'Helado', category: 'comida', color: '#e91e63', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f368.png' },
+            { label: 'Uvas', category: 'comida', color: '#8e44ad', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f347.png' },
+            { label: 'Naranja', category: 'comida', color: '#e67e22', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f34a.png' },
+            { label: 'Pan', category: 'comida', color: '#d4a017', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f35e.png' },
+            // Juguetes (10)
+            { label: 'Pelota', category: 'juguetes', color: '#3498db', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/26be.png' },
+            { label: 'Muñeco', category: 'juguetes', color: '#9b59b6', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9f8.png' },
+            { label: 'Tren', category: 'juguetes', color: '#e67e22', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f682.png' },
+            { label: 'Piano', category: 'juguetes', color: '#1abc9c', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3b9.png' },
+            { label: 'Globo', category: 'juguetes', color: '#e74c3c', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f388.png' },
+            { label: 'Carro', category: 'juguetes', color: '#2980b9', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f697.png' },
+            { label: 'Avión', category: 'juguetes', color: '#7f8c8d', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2708.png' },
+            { label: 'Bicicleta', category: 'juguetes', color: '#2c3e50', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f6b2.png' },
+            { label: 'Patín', category: 'juguetes', color: '#e74c3c', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f6f9.png' },
+            { label: 'Trompo', category: 'juguetes', color: '#f39c12', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1fa80.png' },
+            // Ropa (10)
+            { label: 'Camiseta', category: 'ropa', color: '#2ecc71', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f455.png' },
+            { label: 'Zapato', category: 'ropa', color: '#8B4513', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f45f.png' },
+            { label: 'Gorro', category: 'ropa', color: '#e74c3c', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3a9.png' },
+            { label: 'Bufanda', category: 'ropa', color: '#9b59b6', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9e3.png' },
+            { label: 'Calcetín', category: 'ropa', color: '#3498db', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9e6.png' },
+            { label: 'Pantalón', category: 'ropa', color: '#2c3e50', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f456.png' },
+            { label: 'Vestido', category: 'ropa', color: '#e91e63', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f457.png' },
+            { label: 'Chaqueta', category: 'ropa', color: '#16a085', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9e5.png' },
+            { label: 'Botas', category: 'ropa', color: '#8B4513', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f462.png' },
+            { label: 'Corbata', category: 'ropa', color: '#2980b9', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f454.png' }
+        ];
+
+        function shuffle(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function pickItems(pool, count) {
+            const grouped = { comida: [], juguetes: [], ropa: [] };
+            pool.forEach(item => grouped[item.category].push(item));
+            const selected = [];
+            const perCategory = Math.floor(count / 3);
+            Object.keys(grouped).forEach(cat => {
+                const picked = shuffle(grouped[cat]).slice(0, perCategory);
+                selected.push(...picked);
+            });
+            while (selected.length < count) {
+                const remaining = pool.filter(item => !selected.includes(item));
+                if (remaining.length === 0) break;
+                selected.push(remaining[Math.floor(Math.random() * remaining.length)]);
+            }
+            return shuffle(selected);
+        }
+
+        const items = pickItems(allItems, 9);
+        const totalRounds = items.length;
+        document.getElementById('progress-text').textContent = `0 de ${totalRounds}`;
+        const progressDots = document.getElementById('progress-dots');
+        progressDots.innerHTML = '';
+        for (let i = 0; i < totalRounds; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'flex-1 bg-surface-container-highest rounded-full';
+            dot.dataset.idx = i;
+            progressDots.appendChild(dot);
+        }
+        let currentRound = 0;
+        let score = 0;
+        let failures = 0;
+        let placedCategory = null;
+        let failedOnce = [];
+
+        const draggable = document.getElementById('draggable-item');
+        const itemImage = document.getElementById('item-image');
+        const itemLabel = document.getElementById('item-label');
+        const progressText = document.getElementById('progress-text');
+        const roundTitle = document.getElementById('round-title');
+        const roundSubtitle = document.getElementById('round-subtitle');
+        const btnCheck = document.getElementById('btn-check');
+        const btnSkip = document.getElementById('btn-skip');
+        const completeModal = document.getElementById('complete-modal');
+        const resultText = document.getElementById('result-text');
+        const dropCategories = document.querySelectorAll('.drop-category');
+        const foodDropzone = document.getElementById('dropzone-food');
+
+        function loadRound(index) {
+            if (index >= totalRounds) {
+                showComplete();
+                return;
+            }
+            const item = items[index];
+            itemImage.src = item.src;
+            itemImage.onerror = function() { this.src = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="112" height="112" viewBox="0 0 24 24"><rect width="24" height="24" fill="${item.color}" rx="4"/><text x="12" y="16" text-anchor="middle" fill="white" font-size="12">${item.label[0]}</text></svg>`); };
+            itemLabel.textContent = item.label;
+            placedCategory = null;
+            draggable.classList.remove('opacity-50');
+            draggable.style.display = 'flex';
+            draggable.setAttribute('draggable', 'true');
+            btnCheck.disabled = false;
+            btnCheck.innerHTML = '<span class="material-symbols-outlined filled-icon">check_circle</span> Comprobar';
+            btnCheck.className = 'w-full h-[64px] bg-secondary text-on-secondary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 hover:bg-on-secondary-fixed-variant transition-all';
+            roundSubtitle.textContent = `Arrastra "${item.label}" al grupo correcto`;
+            updateProgress(index);
+
+            document.querySelectorAll('.drop-category').forEach(z => {
+                z.classList.remove('border-secondary', 'bg-secondary-container/20');
+            });
+
+            const hint = foodDropzone.querySelector('.drop-hint');
+            if (hint) hint.style.display = 'block';
+
+            document.querySelectorAll('.drop-category .dropped-item').forEach(el => el.remove());
+            document.querySelectorAll('.drop-category').forEach(z => z.classList.remove('border-error', 'bg-error-container/20'));
+            btnCheck.dataset.advancing = 'false';
+        }
+
+        function updateProgress(index) {
+            progressText.textContent = `${index} de ${totalRounds}`;
+            const dots = progressDots.querySelectorAll('[data-idx]');
+            dots.forEach((dot, i) => {
+                if (i < index) {
+                    dot.className = 'flex-1 bg-secondary rounded-full';
+                } else if (i === index) {
+                    dot.className = 'flex-1 bg-primary-container rounded-full relative overflow-hidden';
+                } else {
+                    dot.className = 'flex-1 bg-surface-container-highest rounded-full';
+                }
+            });
+        }
+
+        function launchConfetti() {
+            const colors = ['#e74c3c', '#f1c40f', '#2ecc71', '#3498db', '#9b59b6', '#e67e22', '#1abc9c', '#e91e63'];
+            const shapes = ['■', '●', '▲', '★', '♦'];
+            for (let i = 0; i < 80; i++) {
+                const el = document.createElement('div');
+                el.className = 'confetti-piece';
+                el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.color = colors[Math.floor(Math.random() * colors.length)];
+                el.style.fontSize = (8 + Math.random() * 16) + 'px';
+                el.style.animationDuration = (2 + Math.random() * 3) + 's';
+                el.style.animationDelay = (Math.random() * 2) + 's';
+                el.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 5000);
+            }
+        }
+
+        function showComplete() {
+            completeModal.classList.remove('hidden');
+            launchConfetti();
+            const allCorrect = failures === 0;
+            const icon = document.getElementById('modal-icon');
+            const title = document.getElementById('modal-title');
+            if (allCorrect) {
+                icon.textContent = 'celebration';
+                icon.className = 'material-symbols-outlined text-8xl text-secondary drop-shadow-lg relative z-10';
+                icon.style.fontVariationSettings = "'FILL' 1";
+                title.textContent = '¡Perfecto! 🎉';
+                resultText.innerHTML = `
+                    <span class="text-6xl font-bold text-secondary">${score}/${totalRounds}</span>
+                    <span class="block text-body-md text-on-surface-variant mt-2">¡Lo lograste todo sin errores!</span>
+                `;
+            } else {
+                icon.textContent = 'emoji_events';
+                icon.className = 'material-symbols-outlined text-8xl text-tertiary drop-shadow-lg relative z-10';
+                icon.style.fontVariationSettings = "'FILL' 1";
+                title.textContent = '¡Felicidades! 🏆';
+                resultText.innerHTML = `
+                    <span class="block text-headline-md font-bold text-on-surface">✅ Lograste ${score} de ${totalRounds}</span>
+                    <span class="block text-body-md text-on-surface-variant mt-1">❌ Fallaste ${failures} ${failures === 1 ? 'vez' : 'veces'}</span>
+                `;
+            }
+        }
+
+        draggable.addEventListener('dragstart', (e) => {
+            if (placedCategory !== null) return;
+            e.dataTransfer.setData('text/plain', 'item');
+            setTimeout(() => draggable.classList.add('opacity-50'), 0);
+            dropCategories.forEach(z => z.classList.add('drop-zone-active', 'border-primary', 'bg-primary-fixed/10'));
+        });
+
+        draggable.addEventListener('dragend', (e) => {
+            draggable.classList.remove('opacity-50');
+            dropCategories.forEach(z => z.classList.remove('drop-zone-active', 'border-primary', 'bg-primary-fixed/10'));
+        });
+
+        dropCategories.forEach(zone => {
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                if (placedCategory !== null) return;
+                zone.classList.add('scale-105', 'bg-secondary-container/30');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('scale-105', 'bg-secondary-container/30');
+            });
+
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('scale-105', 'bg-secondary-container/30');
+                zone.classList.remove('drop-zone-active', 'border-primary', 'bg-primary-fixed/10');
+                if (placedCategory !== null) return;
+
+                placedCategory = zone.dataset.category;
+                draggable.style.display = 'none';
+                draggable.setAttribute('draggable', 'false');
+
+                const dropContent = zone.querySelector('.drop-hint');
+                if (dropContent) dropContent.style.display = 'none';
+
+                const item = items[currentRound];
+                const droppedEl = document.createElement('div');
+                droppedEl.className = 'dropped-item flex flex-col items-center gap-1 p-2 animate-pop';
+                droppedEl.innerHTML = `
+                    <img class="w-16 h-16 object-contain drop-shadow-md" src="${item.src}" alt="${item.label}"/>
+                    <span class="text-label-caps text-primary font-bold text-sm">${item.label}</span>
+                `;
+                const dropTarget = zone.querySelector('#dropzone-food') || zone;
+                dropTarget.appendChild(droppedEl);
+
+                zone.classList.add('border-secondary', 'bg-secondary-container/20');
+            });
+        });
+
+        function advanceRound() {
+            currentRound++;
+            loadRound(currentRound);
+        }
+
+        function resetRound() {
+            placedCategory = null;
+            draggable.style.display = 'flex';
+            draggable.setAttribute('draggable', 'true');
+            document.querySelectorAll('.drop-category .dropped-item').forEach(el => el.remove());
+            document.querySelectorAll('.drop-category').forEach(z => {
+                z.classList.remove('border-secondary', 'bg-secondary-container/20', 'border-error', 'bg-error-container/20');
+            });
+            const hint = foodDropzone.querySelector('.drop-hint');
+            if (hint) hint.style.display = 'block';
+        }
+
+        btnCheck.addEventListener('click', function() {
+            if (placedCategory === null) {
+                this.innerHTML = '<span class="material-symbols-outlined filled-icon">info</span> ¡Arrastra el objeto primero!';
+                this.className = 'w-full h-[64px] bg-error-container text-on-error-container rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 transition-all';
+                setTimeout(() => {
+                    this.innerHTML = '<span class="material-symbols-outlined filled-icon">check_circle</span> Comprobar';
+                    this.className = 'w-full h-[64px] bg-secondary text-on-secondary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 hover:bg-on-secondary-fixed-variant transition-all';
+                }, 1500);
+                return;
+            }
+
+            if (this.dataset.advancing === 'true') {
+                advanceRound();
+                return;
+            }
+
+            const correct = placedCategory === items[currentRound].category;
+            if (correct && !failedOnce[currentRound]) score++;
+
+            this.disabled = true;
+            if (correct) {
+                this.innerHTML = '<span class="material-symbols-outlined filled-icon">celebration</span> ¡Correcto!';
+                this.className = 'w-full h-[64px] bg-on-secondary-container text-on-secondary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 transition-all';
+                if (navigator.vibrate) navigator.vibrate(80);
+                this.dataset.advancing = 'true';
+                setTimeout(() => {
+                    this.disabled = false;
+                    this.innerHTML = '<span class="material-symbols-outlined filled-icon">arrow_forward</span> Siguiente nivel';
+                    this.className = 'w-full h-[64px] bg-primary text-on-primary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 hover:bg-primary-fixed-variant transition-all';
+                }, 800);
+            } else {
+                failures++;
+                failedOnce[currentRound] = true;
+                this.innerHTML = '<span class="material-symbols-outlined filled-icon">close</span> ¡Intenta de nuevo!';
+                this.className = 'w-full h-[64px] bg-error-container text-on-error-container rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 transition-all';
+                if (navigator.vibrate) navigator.vibrate(150);
+                setTimeout(() => {
+                    this.disabled = false;
+                    this.innerHTML = '<span class="material-symbols-outlined filled-icon">check_circle</span> Comprobar';
+                    this.className = 'w-full h-[64px] bg-secondary text-on-secondary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 hover:bg-on-secondary-fixed-variant transition-all';
+                    resetRound();
+                }, 1000);
+            }
+        });
+
+        btnSkip.addEventListener('click', function() {
+            if (navigator.vibrate) navigator.vibrate(30);
+            advanceRound();
+        });
+
+        loadRound(0);
+    </script>
+</body></html>

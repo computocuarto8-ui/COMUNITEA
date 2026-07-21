@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CalmComm - Tablero de Comunicación</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@100..900&family=Quicksand:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#007348",
+                    "secondary-fixed": "#97f6be",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#006d43",
+                    "surface-variant": "#e1e3e3",
+                    "on-primary-fixed": "#001e2f",
+                    "surface": "#f8f9f9",
+                    "surface-dim": "#d9dada",
+                    "on-tertiary-container": "#463a00",
+                    "tertiary-container": "#bca43d",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#221b00",
+                    "tertiary-fixed": "#fde274",
+                    "surface-container": "#edeeee",
+                    "background": "#f8f9f9",
+                    "surface-container-highest": "#e1e3e3",
+                    "on-secondary-fixed": "#002111",
+                    "surface-bright": "#f8f9f9",
+                    "error": "#ba1a1a",
+                    "on-surface": "#191c1c",
+                    "primary-fixed-dim": "#8aceff",
+                    "tertiary-fixed-dim": "#dfc65b",
+                    "primary-container": "#5dade2",
+                    "tertiary": "#6f5d00",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#e7e8e8",
+                    "on-primary-fixed-variant": "#004b6f",
+                    "inverse-surface": "#2e3131",
+                    "on-secondary": "#ffffff",
+                    "primary": "#006491",
+                    "on-surface-variant": "#40484f",
+                    "on-tertiary-fixed-variant": "#544600",
+                    "outline": "#707880",
+                    "inverse-on-surface": "#f0f1f1",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-background": "#191c1c",
+                    "surface-tint": "#006491",
+                    "secondary-container": "#97f6be",
+                    "on-primary-container": "#003f5d",
+                    "surface-container-low": "#f3f4f4",
+                    "secondary-fixed-dim": "#7bd9a4",
+                    "inverse-primary": "#8aceff",
+                    "outline-variant": "#bfc7d0",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#c9e6ff",
+                    "on-secondary-fixed-variant": "#005231"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "24px",
+                    "stack-lg": "40px",
+                    "stack-md": "24px",
+                    "gutter": "16px",
+                    "stack-sm": "12px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Atkinson Hyperlegible Next"],
+                    "headline-lg": ["Quicksand"],
+                    "headline-md": ["Quicksand"],
+                    "body-lg": ["Quicksand"],
+                    "headline-lg-mobile": ["Quicksand"],
+                    "body-md": ["Quicksand"]
+            },
+            "fontSize": {
+                    "label-caps": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8f9f9;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .pictogram-card {
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-bottom: 4px solid rgba(0,0,0,0.1);
+        }
+
+        .pictogram-card:active {
+            transform: translateY(4px);
+            border-bottom-width: 0px;
+        }
+
+        .sentence-bar-glow {
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-pop {
+            animation: popIn 0.3s ease-out forwards;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-background min-h-screen flex flex-col pb-24">
+<!-- TopAppBar Shell -->
+<header class="bg-surface dark:bg-surface-dim flex justify-between items-center w-full px-container-padding py-4 border-b-2 border-surface-variant dark:border-outline-variant sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full active:translate-y-0.5 transition-transform">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">arrow_back</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">CalmComm</h1>
+</div>
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full active:translate-y-0.5 transition-transform">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">help</span>
+</button>
+</header>
+<main class="flex-1 px-container-padding py-stack-md max-w-4xl mx-auto w-full">
+<!-- Sentence Bar (Predictive/Building area) -->
+<section class="mb-stack-lg">
+<div class="w-full min-h-[100px] bg-white border-2 border-outline-variant rounded-xl p-4 flex items-center gap-3 overflow-x-auto sentence-bar-glow mb-4 relative" id="sentence-bar">
+<!-- Placeholder when empty -->
+<div class="absolute inset-0 flex items-center justify-center text-on-surface-variant opacity-50 pointer-events-none" id="empty-state">
+<p class="font-body-lg text-body-lg italic">Toca para hablar...</p>
+</div>
+</div>
+<div class="flex gap-stack-sm">
+<button class="flex-1 h-14 bg-surface-container-highest border-2 border-outline-variant rounded-xl font-label-caps text-label-caps text-on-surface-variant flex items-center justify-center gap-2 active:translate-y-1 transition-all" onclick="clearSentence()">
+<span class="material-symbols-outlined">backspace</span>
+                    BORRAR TODO
+                </button>
+<button class="flex-1 h-14 bg-primary border-2 border-primary-fixed-variant rounded-xl font-label-caps text-label-caps text-on-primary flex items-center justify-center gap-2 active:translate-y-1 transition-all shadow-md" onclick="speakSentence()">
+<span class="material-symbols-outlined">volume_up</span>
+                    REPRODUCIR
+                </button>
+</div>
+</section>
+<!-- Communication Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-gutter">
+<!-- Water / Agua (Needs Category - Blue) -->
+<button class="pictogram-card aspect-square bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Agua', 'water_full', 'bg-primary-container', 'text-on-primary-container')">
+<span class="material-symbols-outlined text-6xl text-on-primary-container mb-2">water_full</span>
+<span class="font-headline-md text-headline-md text-on-primary-container uppercase tracking-wide">AGUA</span>
+</button>
+<!-- Eat / Comer (Needs Category - Green) -->
+<button class="pictogram-card aspect-square bg-secondary-container border-2 border-on-secondary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Comer', 'restaurant', 'bg-secondary-container', 'text-on-secondary-container')">
+<span class="material-symbols-outlined text-6xl text-on-secondary-container mb-2">restaurant</span>
+<span class="font-headline-md text-headline-md text-on-secondary-container uppercase tracking-wide">COMER</span>
+</button>
+<!-- Toilet / Baño (Hygiene Category - Yellow/Amber) -->
+<button class="pictogram-card aspect-square bg-tertiary-container border-2 border-on-tertiary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Baño', 'wc', 'bg-tertiary-container', 'text-on-tertiary-container')">
+<span class="material-symbols-outlined text-6xl text-on-tertiary-container mb-2">wc</span>
+<span class="font-headline-md text-headline-md text-on-tertiary-container uppercase tracking-wide">BAÑO</span>
+</button>
+<!-- Play / Jugar (Activities Category - Purple-ish) -->
+<button class="pictogram-card aspect-square bg-primary-fixed-dim border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Jugar', 'extension', 'bg-primary-fixed-dim', 'text-on-primary-fixed-variant')">
+<span class="material-symbols-outlined text-6xl text-on-primary-fixed-variant mb-2">extension</span>
+<span class="font-headline-md text-headline-md text-on-primary-fixed-variant uppercase tracking-wide">JUGAR</span>
+</button>
+<!-- Help / Ayuda (Emergency Category - Red) -->
+<button class="pictogram-card aspect-square bg-error-container border-2 border-error rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Ayuda', 'emergency', 'bg-error-container', 'text-on-error-container')">
+<span class="material-symbols-outlined text-6xl text-on-error-container mb-2">emergency</span>
+<span class="font-headline-md text-headline-md text-on-error-container uppercase tracking-wide">AYUDA</span>
+</button>
+<!-- Sleep / Dormir (Physical Category - Soft Blue) -->
+<button class="pictogram-card aspect-square bg-primary-fixed border-2 border-outline-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Dormir', 'bedtime', 'bg-primary-fixed', 'text-on-primary-fixed-variant')">
+<span class="material-symbols-outlined text-6xl text-on-primary-fixed-variant mb-2">bedtime</span>
+<span class="font-headline-md text-headline-md text-on-primary-fixed-variant uppercase tracking-wide">DORMIR</span>
+</button>
+<!-- Emotions Section -->
+<div class="col-span-full mt-stack-md mb-stack-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface-variant">¿Cómo te sientes?</h3>
+</div>
+<!-- Feliz -->
+<a class="pictogram-card aspect-square bg-secondary-container border-2 border-on-secondary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html">
+<span class="material-symbols-outlined text-6xl text-on-secondary-container mb-2">sentiment_very_satisfied</span>
+<span class="font-headline-md text-headline-md text-on-secondary-container uppercase tracking-wide">FELIZ</span>
+</a>
+<!-- Triste -->
+<a class="pictogram-card aspect-square bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html">
+<span class="material-symbols-outlined text-6xl text-on-primary-container mb-2">sentiment_dissatisfied</span>
+<span class="font-headline-md text-headline-md text-on-primary-container uppercase tracking-wide">TRISTE</span>
+</a>
+<!-- Enojado -->
+<a class="pictogram-card aspect-square bg-error-container border-2 border-on-error-container rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html">
+<span class="material-symbols-outlined text-6xl text-on-error-container mb-2">mood_bad</span>
+<span class="font-headline-md text-headline-md text-on-error-container uppercase tracking-wide">ENOJADO</span>
+</a>
+<!-- Calmado -->
+<a class="pictogram-card aspect-square bg-tertiary-container border-2 border-on-tertiary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html">
+<span class="material-symbols-outlined text-6xl text-on-tertiary-container mb-2">sentiment_calm</span>
+<span class="font-headline-md text-headline-md text-on-tertiary-container uppercase tracking-wide">CALMADO</span>
+</a>
+</div>
+</main>
+    <!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-inverse-surface border-t-2 border-surface-variant dark:border-outline-variant rounded-t-xl shadow-lg">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="index.html">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-caps font-label-caps">Inicio</span>
+</a>
+<!-- Words (Active Intent for Communication Board) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="tablero_comunicacion.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="text-label-caps font-label-caps">Palabras</span>
+</a>
+<!-- Feelings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="emociones.html">
+<span class="material-symbols-outlined">mood</span>
+<span class="text-label-caps font-label-caps">Emociones</span>
+</a>
+<!-- Play -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="ejercicios.html">
+<span class="material-symbols-outlined">extension</span>
+<span class="text-label-caps font-label-caps">Jugar</span>
+</a>
+</nav>
+<script>
+        const sentenceBar = document.getElementById('sentence-bar');
+        const emptyState = document.getElementById('empty-state');
+        let words = [];
+
+        function addToSentence(label, icon, bgColor, textColor) {
+            words.push(label);
+            emptyState.style.display = 'none';
+
+            const wordTag = document.createElement('div');
+            wordTag.className = `animate-pop flex flex-col items-center justify-center min-w-[70px] h-[70px] ${bgColor} border border-outline-variant rounded-lg p-1 shrink-0`;
+            wordTag.innerHTML = `
+                <span class="material-symbols-outlined text-2xl ${textColor}">${icon}</span>
+                <span class="text-[10px] font-bold ${textColor} uppercase">${label}</span>
+            `;
+            
+            sentenceBar.appendChild(wordTag);
+            
+            // Auto scroll to end
+            sentenceBar.scrollTo({
+                left: sentenceBar.scrollWidth,
+                behavior: 'smooth'
+            });
+
+            // Feedback sound or haptic would go here
+            if ('vibrate' in navigator) {
+                navigator.vibrate(50);
+            }
+        }
+
+        function clearSentence() {
+            sentenceBar.innerHTML = '';
+            sentenceBar.appendChild(emptyState);
+            emptyState.style.display = 'flex';
+            words = [];
+        }
+
+        function speakSentence() {
+            if (words.length === 0) return;
+            
+            const textToSpeak = words.join(' ');
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9; // Slightly slower for clarity
+            speechSynthesis.speak(utterance);
+
+            // Pulse effect on play
+            const bar = document.getElementById('sentence-bar');
+            bar.classList.add('ring-4', 'ring-primary-container');
+            setTimeout(() => {
+                bar.classList.remove('ring-4', 'ring-primary-container');
+            }, 500);
+        }
+    </script>
+</body></html>

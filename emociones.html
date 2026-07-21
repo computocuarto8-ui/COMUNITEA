@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&amp;family=Atkinson+Hyperlegible+Next:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#007348",
+                    "secondary-fixed": "#97f6be",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#006d43",
+                    "surface-variant": "#e1e3e3",
+                    "on-primary-fixed": "#001e2f",
+                    "surface": "#f8f9f9",
+                    "surface-dim": "#d9dada",
+                    "on-tertiary-container": "#463a00",
+                    "tertiary-container": "#bca43d",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#221b00",
+                    "tertiary-fixed": "#fde274",
+                    "surface-container": "#edeeee",
+                    "background": "#f8f9f9",
+                    "surface-container-highest": "#e1e3e3",
+                    "on-secondary-fixed": "#002111",
+                    "surface-bright": "#f8f9f9",
+                    "error": "#ba1a1a",
+                    "on-surface": "#191c1c",
+                    "primary-fixed-dim": "#8aceff",
+                    "tertiary-fixed-dim": "#dfc65b",
+                    "primary-container": "#5dade2",
+                    "tertiary": "#6f5d00",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#e7e8e8",
+                    "on-primary-fixed-variant": "#004b6f",
+                    "inverse-surface": "#2e3131",
+                    "on-secondary": "#ffffff",
+                    "primary": "#006491",
+                    "on-surface-variant": "#40484f",
+                    "on-tertiary-fixed-variant": "#544600",
+                    "outline": "#707880",
+                    "inverse-on-surface": "#f0f1f1",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-background": "#191c1c",
+                    "surface-tint": "#006491",
+                    "secondary-container": "#97f6be",
+                    "on-primary-container": "#003f5d",
+                    "surface-container-low": "#f3f4f4",
+                    "secondary-fixed-dim": "#7bd9a4",
+                    "inverse-primary": "#8aceff",
+                    "outline-variant": "#bfc7d0",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#c9e6ff",
+                    "on-secondary-fixed-variant": "#005231"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "24px",
+                    "stack-lg": "40px",
+                    "stack-md": "24px",
+                    "gutter": "16px",
+                    "stack-sm": "12px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Atkinson Hyperlegible Next"],
+                    "headline-lg": ["Quicksand"],
+                    "headline-md": ["Quicksand"],
+                    "body-lg": ["Quicksand"],
+                    "headline-lg-mobile": ["Quicksand"],
+                    "body-md": ["Quicksand"]
+            },
+            "fontSize": {
+                    "label-caps": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #f8f9f9; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .emotion-card {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .emotion-card:active {
+            transform: scale(0.95) translateY(2px);
+        }
+        .tactile-button {
+            box-shadow: 0 4px 0px 0px rgba(0,0,0,0.1);
+        }
+        .tactile-button:active {
+            box-shadow: 0 0px 0px 0px rgba(0,0,0,0.1);
+            transform: translateY(4px);
+        }
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim border-b-2 border-surface-variant dark:border-outline-variant flex justify-between items-center w-full px-container-padding py-4 sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">CalmComm</h1>
+</div>
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">help</span>
+</button>
+</header>
+<main class="min-h-screen pb-32">
+<!-- Hero Section -->
+<section class="px-container-padding pt-stack-md">
+<div class="bg-primary-container rounded-xl p-stack-md mb-stack-md flex flex-col gap-2 border-2 border-on-primary-fixed-variant shadow-sm">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-primary-container">¿Cómo te sientes?</h2>
+<p class="font-body-md text-body-md text-on-primary-container opacity-90">Toca una cara para mostrar tu sentimiento.</p>
+</div>
+</section>
+<!-- Emotions Gallery - Bento Grid -->
+<section class="px-container-padding grid grid-cols-2 gap-gutter">
+<!-- Feliz -->
+<div class="emotion-card bg-secondary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-secondary" onclick="openEmotion('Feliz', 'bg-secondary-container', 'A high-contrast digital illustration of a cheerful, smiling face with bright, sparkling eyes and rosy cheeks. The style is soft minimalist with rounded shapes and thick lines, using a palette of vibrant greens and yellows. The lighting is warm and sunny, creating a safe and welcoming atmosphere for children.')">
+<div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-secondary-fixed-variant">
+<img class="w-full h-full object-cover" data-alt="A high-contrast digital illustration of a cheerful, smiling face with bright, sparkling eyes and rosy cheeks. The style is soft minimalist with rounded shapes and thick lines, using a palette of vibrant greens and yellows. The lighting is warm and sunny, creating a safe and welcoming atmosphere for children." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYiwHmlEYFpFLiDvohwiGi9rjAXtgWpxKdIFZHB_xUu3lSuTM0fX2Y47oui3DTAX1PSNnaFlYuzbcOV6cwbKD2f_gi9liFoVKdsNJD-WBJcn2kror9BctQ0Uw3w9xH9EP06xavrEB9mJkYBmRdVeOEU44NOukFi94j-S18Le83_SiQzIpEoA_q6jnCR1AzE4oX96JUNy6hRC6guFm1wHLt41vDCGtK_alUSI6BtCEcyisv2gMpixT44w"/>
+</div>
+<span class="font-label-caps text-label-caps text-on-secondary-container">FELIZ</span>
+</div>
+<!-- Triste -->
+<div class="emotion-card bg-primary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-primary" onclick="openEmotion('Triste', 'bg-primary-container', 'A gentle digital illustration of a sad face with a soft, downturned mouth and a single teardrop on a blue-toned background. The art style is tactile and rounded, avoiding sharp edges to maintain a calming environment. The color palette features soothing blues and soft grays under cool, diffused lighting.')">
+<div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-primary-fixed-variant">
+<img class="w-full h-full object-cover" data-alt="A gentle digital illustration of a sad face with a soft, downturned mouth and a single teardrop on a blue-toned background. The art style is tactile and rounded, avoiding sharp edges to maintain a calming environment. The color palette features soothing blues and soft grays under cool, diffused lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSU7s0I0SVIdwxn0Cg39IZqmhLuK_nYpA8wLS_UnkJVYNsjRPlDhTGS46Q_QKc_MzLzgrvMLjgLFqKdKsjUgr-Wr9RsZHp0YERqJak_u7IDVJad--_hgC7Jtnxhno5pV4bRvOSR-bJ6tazYcJpZ822Z96IrWmcClYijKYtQ1WbRY9QvHEv2VGOorGjdrgfuChdoJULWllyzM86oFBJlGbBNZ0P_1uosMcBCeQYyV29Vli-E8gweor0Nw"/>
+</div>
+<span class="font-label-caps text-label-caps text-on-primary-container">TRISTE</span>
+</div>
+<!-- Enojado -->
+<div class="emotion-card bg-error-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-error" onclick="openEmotion('Enojado', 'bg-error-container', 'A representational digital illustration of an angry face with furrowed brows and a slightly pouting mouth. The design uses soft, rounded features and thick 2pt monoline strokes to remain non-threatening. Colors include earthy reds and warm oranges, with flat, high-contrast lighting that ensures total legibility.')">
+<div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-error-container">
+<img class="w-full h-full object-cover" data-alt="A representational digital illustration of an angry face with furrowed brows and a slightly pouting mouth. The design uses soft, rounded features and thick 2pt monoline strokes to remain non-threatening. Colors include earthy reds and warm oranges, with flat, high-contrast lighting that ensures total legibility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzKgus8n6xYcrs3BZBJZf1mMF0i2W9ni-vQga9foCJfQGAVQzCaYSZsVyZOohZmKckFke8Faav-VaWy7U_b44ZdcCKxDdmXlNBjcNzYsQPGx1BczlkzW1Z8OoRdUPdPpql5fqRQIvdW_1-pkpXU01Gnl4FuhP7p0lHdmKfE3w9Qf3dyI4qtBL3dBkadGdaly34GwPuA1ASBhhZaSJosN8kZD00GwLKzXr6Ox1o0fUdvPsMjChrj2yc3w"/>
+</div>
+<span class="font-label-caps text-label-caps text-on-error-container">ENOJADO</span>
+</div>
+<!-- Calmado -->
+<div class="emotion-card bg-tertiary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-tertiary" onclick="openEmotion('Calmado', 'bg-tertiary-container', 'A serene digital illustration of a calm face with closed eyes and a peaceful, neutral expression. The style is minimalist and clean, utilizing a soothing palette of soft yellows and cream colors. The lighting is soft and atmospheric, designed to reduce sensory overload and provide a sense of safety and quiet.')">
+<div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-tertiary-fixed-variant">
+<img class="w-full h-full object-cover" data-alt="A serene digital illustration of a calm face with closed eyes and a peaceful, neutral expression. The style is minimalist and clean, utilizing a soothing palette of soft yellows and cream colors. The lighting is soft and atmospheric, designed to reduce sensory overload and provide a sense of safety and quiet." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV8GOswRYfaMUXl1CWmGiUl6QFMmAKfasHmAOAj-GpE9S8k3BwS_tZDgvnX57-IZW3fZnBiu1rlDVArUpGh6AJXoTD1McVxR0luQ6dTqtuVqRoyaCDY11uDBGY4qkBjFPGD5dBp2JIVtP4X_g03_iSsZY-SMvGsq1jOWCliC0_tvTObfTBqososjlNorsnnG9GqDcZffYhRs8ysLyaW4VTDMhkSHlpJNr8LPXX66Aj5Tk-IE3hRwPEfw"/>
+</div>
+<span class="font-label-caps text-label-caps text-on-tertiary-container">CALMADO</span>
+</div>
+</section>
+<!-- Communication Tools -->
+<section class="px-container-padding mt-stack-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface-variant mb-gutter">Necesidades rápidas</h3>
+<div class="flex flex-col gap-stack-sm">
+<button class="tactile-button w-full h-[56px] bg-surface border-2 border-outline-variant rounded-xl flex items-center justify-center gap-4 px-6 hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-primary">water_full</span>
+<span class="font-headline-md text-headline-md text-primary">Tengo sed</span>
+</button>
+<button class="tactile-button w-full h-[56px] bg-surface border-2 border-outline-variant rounded-xl flex items-center justify-center gap-4 px-6 hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-primary">restaurant</span>
+<span class="font-headline-md text-headline-md text-primary">Tengo hambre</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Modal for Large View -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-container-padding" id="emotionModal">
+<div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeEmotion()"></div>
+<div class="relative w-full max-w-md bg-surface rounded-2xl p-6 border-4 border-primary shadow-2xl flex flex-col items-center gap-stack-md transform scale-90 opacity-0 transition-all duration-300" id="modalContent">
+<div class="w-full aspect-square rounded-xl overflow-hidden border-2 border-surface-variant" id="modalImageContainer">
+<img class="w-full h-full object-cover" data-alt="Default placeholder for emotional focus" id="modalImage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJWkpqsPLByePK3-zCeiqpqLO8o-vC5jYbtEsXaSzWRwssc3doow9uqCgb9jXz9fcqbtiZENMyViNKLwVcVUsYnY-7vZhxzivmpMr2x1wDRBDuy_4atYPY_fn0Le1y-PNuttpo4DfJSbxL3DgAG0XLZgyGJENT0t7oo-mDFVONtUNrhpiH7zy_xFfzANtVh97J3STJjJiew3sn9fHru6DUE3mgeAJBqyW6nRty6kU4dhfc7VCK_VjUzA"/>
+</div>
+<h2 class="font-headline-lg-mobile text-[48px] leading-tight text-primary uppercase tracking-wider" id="modalTitle">FELIZ</h2>
+<button class="tactile-button w-full h-[64px] bg-primary text-on-primary rounded-xl font-headline-md text-headline-md flex items-center justify-center gap-2" onclick="closeEmotion()">
+<span class="material-symbols-outlined">check_circle</span>
+                LISTO
+            </button>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-inverse-surface border-t-2 border-surface-variant dark:border-outline-variant shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="index.html">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-caps font-label-caps">Inicio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="tablero_comunicacion.html">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="text-label-caps font-label-caps">Palabras</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="emociones.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mood</span>
+<span class="text-label-caps font-label-caps">Emociones</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="ejercicios.html">
+<span class="material-symbols-outlined">extension</span>
+<span class="text-label-caps font-label-caps">Jugar</span>
+</a>
+</nav>
+<script>
+        function openEmotion(label, bgColor, altText) {
+            const modal = document.getElementById('emotionModal');
+            const content = document.getElementById('modalContent');
+            const title = document.getElementById('modalTitle');
+            const img = document.getElementById('modalImage');
+
+            // Set content
+            title.textContent = label;
+            img.setAttribute('data-alt', altText);
+            
+            // Clean classes and apply dynamic ones
+            content.className = `relative w-full max-w-md ${bgColor} rounded-2xl p-6 border-4 border-on-surface shadow-2xl flex flex-col items-center gap-stack-md transform scale-90 opacity-0 transition-all duration-300`;
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-90', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeEmotion() {
+            const modal = document.getElementById('emotionModal');
+            const content = document.getElementById('modalContent');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-90', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Add haptic feedback simulation on interactions
+        document.querySelectorAll('button, .emotion-card').forEach(el => {
+            el.addEventListener('click', () => {
+                if (window.navigator.vibrate) {
+                    window.navigator.vibrate(50);
+                }
+            });
+        });
+    </script>
+</body></html>
