@@ -242,10 +242,9 @@
 <span class="text-label-caps font-label-caps">Jugar</span>
 </a>
 </nav>
-    <div class="hidden fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-error text-on-error px-4 py-2 rounded-xl font-body-md shadow-lg" id="tts-warning">Audio no disponible en este dispositivo</div>
+    <div class="hidden fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-error text-on-error px-4 py-2 rounded-xl font-body-md shadow-lg" id="audio-error">No se pudo reproducir el audio.</div>
     <script>
         var audioUnlocked = false;
-        var ttsAvailable = false;
 
         function unlockAudio() {
             if (audioUnlocked) return;
@@ -260,34 +259,10 @@
                 if (ctx.state === 'suspended') ctx.resume();
                 ctx.close();
             } catch(e) {}
-            checkTTS();
         }
 
-        function checkTTS() {
-            if (typeof speechSynthesis === 'undefined') {
-                showTTSWarning();
-                return;
-            }
-            ttsAvailable = true;
-            try {
-                if (speechSynthesis.getVoices().length > 0) return;
-                speechSynthesis.addEventListener('voiceschanged', function() {
-                    try { if (speechSynthesis.getVoices().length > 0) ttsAvailable = true; } catch(e) {}
-                }, { once: true });
-                setTimeout(function() {
-                    try {
-                        if (speechSynthesis.getVoices().length === 0) {
-                            showTTSWarning();
-                        }
-                    } catch(e) {}
-                }, 3000);
-            } catch(e) {
-                showTTSWarning();
-            }
-        }
-
-        function showTTSWarning() {
-            var warn = document.getElementById('tts-warning');
+        function showAudioError() {
+            var warn = document.getElementById('audio-error');
             if (warn) {
                 warn.classList.remove('hidden');
                 setTimeout(function() { warn.classList.add('hidden'); }, 5000);
@@ -323,10 +298,16 @@
                     var utterance = new SpeechSynthesisUtterance(text);
                     utterance.lang = 'es-ES';
                     utterance.rate = 1.0;
+                    utterance.onerror = function(e) {
+                        if (e && (e.error === 'canceled' || e.error === 'interrupted')) return;
+                        showAudioError();
+                    };
                     speechSynthesis.speak(utterance);
                 } catch(e) {
-                    showTTSWarning();
+                    showAudioError();
                 }
+            } else {
+                showAudioError();
             }
             if ('vibrate' in navigator) {
                 navigator.vibrate(30);
