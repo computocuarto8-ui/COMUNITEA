@@ -124,9 +124,18 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        .bottom-nav {
+            box-sizing: border-box;
+            height: calc(64px + env(safe-area-inset-bottom, 0px));
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            overflow: hidden;
+        }
+        .bottom-nav > a {
+            min-width: 0;
+        }
     </style>
   </head>
-<body class="font-body-md text-on-surface">
+<body class="font-body-md text-on-surface overflow-x-hidden">
 <!-- TopAppBar -->
 <header class="bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim border-b-2 border-surface-variant dark:border-outline-variant grid grid-cols-3 items-center w-full px-container-padding py-4 sticky top-0 z-40">
 <div class="flex items-center gap-4">
@@ -210,24 +219,24 @@
 </div>
 </div>
 <!-- BottomNavBar -->
-<nav class="bottom-nav no-scrollbar fixed bottom-0 left-0 w-full z-50 flex items-center gap-2 px-3 py-3 overflow-x-auto bg-surface dark:bg-inverse-surface border-t-2 border-surface-variant dark:border-outline-variant shadow-lg rounded-t-xl">
-<a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="index.html">
+<nav class="bottom-nav no-scrollbar fixed bottom-0 left-0 right-0 w-full z-50 flex items-center justify-center gap-1 px-1 overflow-hidden bg-surface dark:bg-inverse-surface border-t-2 border-surface-variant dark:border-outline-variant shadow-lg rounded-t-xl">
+<a class="flex-1 min-w-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-1 py-1 hover:bg-surface-container-low transition-colors" href="index.html">
 <span class="material-symbols-outlined">home</span>
 <span class="text-label-caps font-label-caps">Inicio</span>
 </a>
-<a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="tablero_comunicacion.html">
+<a class="flex-1 min-w-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-1 py-1 hover:bg-surface-container-low transition-colors" href="tablero_comunicacion.html">
 <span class="material-symbols-outlined">grid_view</span>
 <span class="text-label-caps font-label-caps">Palabras</span>
 </a>
-<a class="flex-shrink-0 flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="emociones.html">
+<a class="flex-1 min-w-0 flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-1 py-1 scale-95 transition-all duration-150" href="emociones.html">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mood</span>
 <span class="text-label-caps font-label-caps">Emociones</span>
 </a>
-<a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="aprendizaje.html">
+<a class="flex-1 min-w-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-1 py-1 hover:bg-surface-container-low transition-colors" href="aprendizaje.html">
 <span class="material-symbols-outlined">school</span>
 <span class="text-label-caps font-label-caps">Aprendizaje</span>
 </a>
-<a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="ejercicios.html">
+<a class="flex-1 min-w-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-1 py-1 hover:bg-surface-container-low transition-colors" href="ejercicios.html">
 <span class="material-symbols-outlined">extension</span>
 <span class="text-label-caps font-label-caps">Jugar</span>
 </a>
