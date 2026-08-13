@@ -170,36 +170,20 @@
 </section>
 <!-- Instruction Section -->
 <section class="mb-stack-md text-center">
-<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface" id="round-title">¿A qué categoría pertenece?</h2>
-<p class="text-body-md text-on-surface-variant mt-2" id="round-subtitle">Arrastra el objeto al grupo correcto</p>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface" id="round-title">ARRASTRA LA LETRA "I" ACA</h2>
+<p class="text-body-md text-on-surface-variant mt-2" id="round-subtitle">Mueve la carta correcta con la letra correcta</p>
 </section>
 <!-- Game Canvas: Asymmetric Bento Style -->
 <div class="grid grid-cols-2 gap-gutter">
-<!-- Target Categories (The Buckets) -->
-<div class="col-span-2 bg-surface-container-low border-2 border-outline-variant rounded-xl p-stack-sm flex flex-col items-center justify-center min-h-[140px] transition-all card-shadow drop-category" data-category="comida" id="category-food">
-<span class="material-symbols-outlined text-4xl text-on-tertiary-container mb-2" data-icon="restaurant">restaurant</span>
-<p class="font-headline-md text-headline-md text-on-tertiary-container">Comida</p>
-<div class="w-full mt-4 min-h-[64px] border-2 border-dashed border-outline-variant rounded-lg flex items-center justify-center bg-white/50 transition-all" id="dropzone-food">
+<!-- Suelta aquí box -->
+<div class="col-span-2 bg-surface-container-low border-2 border-outline-variant rounded-xl p-stack-sm flex flex-col items-center justify-center min-h-[120px] transition-all card-shadow drop-category" data-category="suelta-aqui" id="category-drop">
+<div class="w-full min-h-[64px] border-2 border-dashed border-outline-variant rounded-lg flex items-center justify-center bg-white/50 transition-all">
 <span class="text-label-caps text-outline italic drop-hint">Suelta aquí</span>
 </div>
 </div>
-<div class="bg-surface-container-low border-2 border-outline-variant rounded-xl p-stack-sm flex flex-col items-center justify-center min-h-[140px] transition-all card-shadow drop-category" data-category="juguetes" id="category-toys">
-<span class="material-symbols-outlined text-4xl text-on-primary-fixed-variant mb-2" data-icon="toys">toys</span>
-<p class="font-headline-md text-headline-md text-on-primary-fixed-variant">Juguetes</p>
-</div>
-<div class="bg-surface-container-low border-2 border-outline-variant rounded-xl p-stack-sm flex flex-col items-center justify-center min-h-[140px] transition-all card-shadow drop-category" data-category="ropa" id="category-clothes">
-<span class="material-symbols-outlined text-4xl text-on-secondary-fixed-variant mb-2" data-icon="checkroom">checkroom</span>
-<p class="font-headline-md text-headline-md text-on-secondary-fixed-variant">Ropa</p>
-</div>
-<!-- The Draggable Object Card -->
-<div class="col-span-2 flex justify-center mt-stack-md">
-<div class="group cursor-grab active:cursor-grabbing w-48 h-56 bg-surface-container-lowest border-2 border-primary rounded-xl p-stack-sm flex flex-col items-center justify-between card-shadow transition-transform hover:scale-105 active:scale-95 tactile-button" draggable="true" id="draggable-item">
-<div class="flex-grow flex items-center justify-center w-full bg-primary-fixed/20 rounded-lg overflow-hidden mb-4">
-<img class="w-28 h-28 object-contain drop-shadow-md" id="item-image" src="" alt=""/>
-</div>
-<p class="font-headline-lg-mobile text-headline-lg-mobile text-primary text-center pb-2" id="item-label">Manzana</p>
-</div>
-</div>
+<!-- Target Vowels (The Buckets) -->
+<!-- The Draggable Vowel Cards -->
+<div class="col-span-2 grid grid-cols-2 md:grid-cols-5 gap-gutter mt-stack-md" id="cards-container"></div>
 </div>
 <!-- Action Buttons -->
 <div class="flex flex-col gap-gutter mt-stack-lg">
@@ -240,13 +224,13 @@
 <span class="material-symbols-outlined mb-1" data-icon="mood">mood</span>
 <span class="font-label-caps text-label-caps">Emociones</span>
 </a>
-<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="ejercicios.html">
-<span class="material-symbols-outlined mb-1 filled-icon" data-icon="extension">extension</span>
-<span class="font-label-caps text-label-caps">Jugar</span>
-</a>
 <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="aprendizaje.html">
 <span class="material-symbols-outlined mb-1" data-icon="school">school</span>
 <span class="font-label-caps text-label-caps">Aprendizaje</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="ejercicios.html">
+<span class="material-symbols-outlined mb-1 filled-icon" data-icon="extension">extension</span>
+<span class="font-label-caps text-label-caps">Jugar</span>
 </a>
 </nav>
     <script>
@@ -287,40 +271,26 @@
         document.addEventListener('click', unlockAudio, { once: true });
         document.addEventListener('pointerdown', unlockAudio, { once: true });
 
-        const allItems = [
-            // Comida (10)
-            { label: 'Manzana', category: 'comida', color: '#e74c3c', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f34e.png' },
-            { label: 'Galleta', category: 'comida', color: '#d4a017', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f36a.png' },
-            { label: 'Plátano', category: 'comida', color: '#f1c40f', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f34c.png' },
-            { label: 'Sandía', category: 'comida', color: '#2ecc71', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f349.png' },
-            { label: 'Leche', category: 'comida', color: '#bdc3c7', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f95b.png' },
-            { label: 'Queso', category: 'comida', color: '#f39c12', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9c0.png' },
-            { label: 'Helado', category: 'comida', color: '#e91e63', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f368.png' },
-            { label: 'Uvas', category: 'comida', color: '#8e44ad', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f347.png' },
-            { label: 'Naranja', category: 'comida', color: '#e67e22', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f34a.png' },
-            { label: 'Pan', category: 'comida', color: '#d4a017', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f35e.png' },
-            // Juguetes (10)
-            { label: 'Pelota', category: 'juguetes', color: '#3498db', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/26be.png' },
-            { label: 'Muñeco', category: 'juguetes', color: '#9b59b6', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9f8.png' },
-            { label: 'Tren', category: 'juguetes', color: '#e67e22', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f682.png' },
-            { label: 'Piano', category: 'juguetes', color: '#1abc9c', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3b9.png' },
-            { label: 'Globo', category: 'juguetes', color: '#e74c3c', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f388.png' },
-            { label: 'Carro', category: 'juguetes', color: '#2980b9', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f697.png' },
-            { label: 'Avión', category: 'juguetes', color: '#7f8c8d', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2708.png' },
-            { label: 'Bicicleta', category: 'juguetes', color: '#2c3e50', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f6b2.png' },
-            { label: 'Patín', category: 'juguetes', color: '#e74c3c', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f6f9.png' },
-            { label: 'Trompo', category: 'juguetes', color: '#f39c12', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1fa80.png' },
-            // Ropa (10)
-            { label: 'Camiseta', category: 'ropa', color: '#2ecc71', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f455.png' },
-            { label: 'Zapato', category: 'ropa', color: '#8B4513', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f45f.png' },
-            { label: 'Gorro', category: 'ropa', color: '#e74c3c', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3a9.png' },
-            { label: 'Bufanda', category: 'ropa', color: '#9b59b6', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9e3.png' },
-            { label: 'Calcetín', category: 'ropa', color: '#3498db', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9e6.png' },
-            { label: 'Pantalón', category: 'ropa', color: '#2c3e50', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f456.png' },
-            { label: 'Vestido', category: 'ropa', color: '#e91e63', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f457.png' },
-            { label: 'Chaqueta', category: 'ropa', color: '#16a085', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f9e5.png' },
-            { label: 'Botas', category: 'ropa', color: '#8B4513', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f462.png' },
-            { label: 'Corbata', category: 'ropa', color: '#2980b9', src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f454.png' }
+        const letterItems = [
+            { label: 'A', category: 'A', color: '#c9e6ff', emoji: 'A' },
+            { label: 'E', category: 'E', color: '#97f6be', emoji: 'E' },
+            { label: 'I', category: 'I', color: '#fde274', emoji: 'I' },
+            { label: 'O', category: 'O', color: '#8aceff', emoji: 'O' },
+            { label: 'U', category: 'U', color: '#ffdad6', emoji: 'U' }
+        ];
+        const numberItems = [
+            { label: '1', category: '1', color: '#c9e6ff', emoji: '1' },
+            { label: '2', category: '2', color: '#97f6be', emoji: '2' },
+            { label: '3', category: '3', color: '#fde274', emoji: '3' },
+            { label: '4', category: '4', color: '#8aceff', emoji: '4' },
+            { label: '5', category: '5', color: '#ffdad6', emoji: '5' }
+        ];
+        const animalItems = [
+            { label: 'Perro', category: 'perro', color: '#a1887f', emoji: '🐶' },
+            { label: 'Gato', category: 'gato', color: '#ce93d8', emoji: '🐱' },
+            { label: 'Vaca', category: 'vaca', color: '#90caf9', emoji: '🐮' },
+            { label: 'Conejo', category: 'conejo', color: '#f48fb1', emoji: '🐰' },
+            { label: 'Pájaro', category: 'pajaro', color: '#80cbc4', emoji: '🐦' }
         ];
 
         function shuffle(arr) {
@@ -331,25 +301,18 @@
             return arr;
         }
 
-        function pickItems(pool, count) {
-            const grouped = { comida: [], juguetes: [], ropa: [] };
-            pool.forEach(item => grouped[item.category].push(item));
-            const selected = [];
-            const perCategory = Math.floor(count / 3);
-            Object.keys(grouped).forEach(cat => {
-                const picked = shuffle(grouped[cat]).slice(0, perCategory);
-                selected.push(...picked);
-            });
-            while (selected.length < count) {
-                const remaining = pool.filter(item => !selected.includes(item));
-                if (remaining.length === 0) break;
-                selected.push(remaining[Math.floor(Math.random() * remaining.length)]);
-            }
-            return shuffle(selected);
+        const cardsPerRound = 5;
+        const totalRounds = 5;
+        const roundTargets = ['I', '5', 'perro', '3', '4'];
+        const numberWords = { '1': 'UNO', '2': 'DOS', '3': 'TRES', '4': 'CUATRO', '5': 'CINCO' };
+        const roundItems = [];
+        for (let r = 0; r < totalRounds; r++) {
+            let source = r === 0 ? letterItems : numberItems;
+            if (r === 2) source = animalItems;
+            const base = source.slice();
+            roundItems.push(r === 2 ? base : shuffle(base));
         }
 
-        const items = pickItems(allItems, 9);
-        const totalRounds = items.length;
         document.getElementById('progress-text').textContent = `0 de ${totalRounds}`;
         const progressDots = document.getElementById('progress-dots');
         progressDots.innerHTML = '';
@@ -362,12 +325,10 @@
         let currentRound = 0;
         let score = 0;
         let failures = 0;
-        let placedCategory = null;
-        let failedOnce = [];
+        let cardStates = [];
+        let activeCardIndex = -1;
 
-        const draggable = document.getElementById('draggable-item');
-        const itemImage = document.getElementById('item-image');
-        const itemLabel = document.getElementById('item-label');
+        const cardsContainer = document.getElementById('cards-container');
         const progressText = document.getElementById('progress-text');
         const roundTitle = document.getElementById('round-title');
         const roundSubtitle = document.getElementById('round-subtitle');
@@ -376,38 +337,154 @@
         const completeModal = document.getElementById('complete-modal');
         const resultText = document.getElementById('result-text');
         const dropCategories = document.querySelectorAll('.drop-category');
-        const foodDropzone = document.getElementById('dropzone-food');
+
+        function renderCards() {
+            cardsContainer.innerHTML = '';
+            const animalRound = currentRound === 2;
+            cardStates = roundItems[currentRound].map((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'group cursor-grab active:cursor-grabbing w-full aspect-[4/5] bg-surface-container-lowest border-2 border-primary rounded-xl p-2 flex flex-col items-center justify-center card-shadow transition-all hover:scale-105 active:scale-95 tactile-button';
+                card.setAttribute('draggable', animalRound ? 'false' : 'true');
+                card.dataset.cardIdx = idx;
+                card.innerHTML = `
+                    <div class="flex-grow flex items-center justify-center w-full">
+                        <span class="text-7xl font-bold leading-none tracking-wide" style="color: ${item.color}">${item.emoji}</span>
+                    </div>
+                    <span class="font-headline-md text-headline-md text-primary text-center leading-tight">${item.label}</span>
+                `;
+                cardsContainer.appendChild(card);
+                if (animalRound) {
+                    setupCardTap(card, idx);
+                } else {
+                    setupCardDrag(card, idx);
+                }
+                return { item: item, idx: idx, card: card, zone: null, selected: false, locked: false };
+            });
+        }
+
+        function setupCardTap(card, idx) {
+            card.classList.add('cursor-pointer');
+            card.classList.remove('cursor-grab', 'active:cursor-grabbing');
+            card.addEventListener('click', () => selectCard(idx));
+            card.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                selectCard(idx);
+            }, { passive: false });
+        }
+
+        function selectCard(idx) {
+            if (cardStates[idx].locked) return;
+            cardStates.forEach(s => {
+                s.selected = false;
+                s.card.classList.remove('scale-110', 'border-secondary', 'bg-secondary-container/30', 'ring-4', 'ring-secondary');
+            });
+            cardStates[idx].selected = true;
+            cardStates[idx].card.classList.add('scale-110', 'border-secondary', 'bg-secondary-container/30', 'ring-4', 'ring-secondary');
+        }
+
+        function setupCardDrag(card, idx) {
+            card.addEventListener('dragstart', (e) => {
+                if (cardStates[idx].locked) { e.preventDefault(); return; }
+                activeCardIndex = idx;
+                e.dataTransfer.setData('text/plain', 'card-' + idx);
+                setTimeout(() => card.classList.add('opacity-50'), 0);
+                dropCategories.forEach(z => z.classList.add('drop-zone-active', 'border-primary', 'bg-primary-fixed/10'));
+            });
+
+            card.addEventListener('dragend', (e) => {
+                card.classList.remove('opacity-50');
+                dropCategories.forEach(z => z.classList.remove('drop-zone-active', 'border-primary', 'bg-primary-fixed/10'));
+            });
+
+            card.addEventListener('touchstart', (e) => {
+                if (cardStates[idx].locked) return;
+                if (touchDragActive) return;
+                activeCardIndex = idx;
+                touchDragActive = true;
+                const touch = e.touches[0];
+
+                dropCategories.forEach(z => z.classList.add('drop-zone-active', 'border-primary', 'bg-primary-fixed/10'));
+
+                const rect = card.getBoundingClientRect();
+                touchDragW = rect.width;
+                touchDragH = rect.height;
+                touchDragClone = card.cloneNode(true);
+                touchDragClone.style.position = 'fixed';
+                touchDragClone.style.zIndex = '9999';
+                touchDragClone.style.pointerEvents = 'none';
+                touchDragClone.style.width = touchDragW + 'px';
+                touchDragClone.style.height = touchDragH + 'px';
+                touchDragClone.style.left = (touch.clientX - touchDragW / 2) + 'px';
+                touchDragClone.style.top = (touch.clientY - touchDragH / 2) + 'px';
+                touchDragClone.style.opacity = '0.85';
+                touchDragClone.style.transform = 'scale(1.05)';
+                touchDragClone.classList.remove('cursor-grab', 'active:cursor-grabbing');
+                document.body.appendChild(touchDragClone);
+                card.classList.add('opacity-50');
+            }, { passive: true });
+
+            card.addEventListener('touchmove', (e) => {
+                if (!touchDragActive || !touchDragClone) return;
+                e.preventDefault();
+                const touch = e.touches[0];
+                touchDragClone.style.left = (touch.clientX - touchDragW / 2) + 'px';
+                touchDragClone.style.top = (touch.clientY - touchDragH / 2) + 'px';
+
+                dropCategories.forEach(z => {
+                    z.classList.remove('scale-105', 'bg-secondary-container/30', 'border-secondary', 'bg-secondary-container/20');
+                });
+                const zone = getDropZoneAtPoint(touch.clientX, touch.clientY);
+                if (zone && activeCardIndex >= 0 && !cardStates[activeCardIndex].locked) {
+                    zone.classList.add('scale-105', 'bg-secondary-container/30');
+                }
+            }, { passive: false });
+
+            card.addEventListener('touchend', (e) => {
+                const touch = e.changedTouches[0];
+                touchEndDrag(touch.clientX, touch.clientY);
+            });
+
+            card.addEventListener('touchcancel', () => {
+                touchEndDrag(0, 0);
+            });
+        }
 
         function loadRound(index) {
             if (index >= totalRounds) {
                 showComplete();
                 return;
             }
-            const item = items[index];
-            itemImage.src = item.src;
-            itemImage.onerror = function() { this.src = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="112" height="112" viewBox="0 0 24 24"><rect width="24" height="24" fill="${item.color}" rx="4"/><text x="12" y="16" text-anchor="middle" fill="white" font-size="12">${item.label[0]}</text></svg>`); };
-            itemLabel.textContent = item.label;
-            placedCategory = null;
-            draggable.classList.remove('opacity-50');
-            draggable.style.display = 'flex';
-            draggable.setAttribute('draggable', 'true');
+            renderCards();
+            resetZones();
             btnCheck.disabled = false;
             btnCheck.innerHTML = '<span class="material-symbols-outlined filled-icon">check_circle</span> Comprobar';
             btnCheck.className = 'w-full h-[64px] bg-secondary text-on-secondary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 hover:bg-on-secondary-fixed-variant transition-all';
-            roundSubtitle.textContent = `Arrastra "${item.label}" al grupo correcto`;
-            updateProgress(index);
-            setTimeout(function() { speakText(item.label); }, 300);
-
-            document.querySelectorAll('.drop-category').forEach(z => {
-                z.classList.remove('border-secondary', 'bg-secondary-container/20');
-            });
-
-            const hint = foodDropzone.querySelector('.drop-hint');
-            if (hint) hint.style.display = 'block';
-
-            document.querySelectorAll('.drop-category .dropped-item').forEach(el => el.remove());
-            document.querySelectorAll('.drop-category').forEach(z => z.classList.remove('border-error', 'bg-error-container/20'));
             btnCheck.dataset.advancing = 'false';
+            const categoryDrop = document.getElementById('category-drop');
+            if (currentRound === 2) {
+                if (categoryDrop) categoryDrop.style.display = 'none';
+            } else {
+                if (categoryDrop) categoryDrop.style.display = '';
+            }
+            const target = roundTargets[currentRound];
+            const isNumber = /^[0-9]$/.test(target);
+            if (currentRound === 2) {
+                roundTitle.textContent = 'MACHUCA AL PERRO';
+                roundSubtitle.textContent = 'Machuca la carta del perro y confírmala para pasar al siguiente nivel';
+            } else {
+                roundTitle.textContent = isNumber ? `¿CUÁL ES EL NÚMERO ${numberWords[target]}?` : `ARRASTRA LA LETRA "${target}" ACA`;
+                roundSubtitle.textContent = isNumber
+                    ? `Arrastra la carta con el número ${target} hasta el cuadro "Suelta aquí"`
+                    : `Arrastra la carta con la letra ${target} hasta el cuadro "Suelta aquí"`;
+            }
+            updateProgress(index);
+        }
+
+        function resetZones() {
+            document.querySelectorAll('.drop-category').forEach(z => {
+                z.classList.remove('border-secondary', 'bg-secondary-container/20', 'border-error', 'bg-error-container/20');
+            });
+            document.querySelectorAll('.drop-category .dropped-item').forEach(el => el.remove());
         }
 
         function updateProgress(index) {
@@ -471,26 +548,40 @@
 
         function handleDrop(zone) {
             zone.classList.remove('drop-zone-active', 'border-primary', 'bg-primary-fixed/10');
-            if (placedCategory !== null) return;
+            if (activeCardIndex < 0) return;
+            const state = cardStates[activeCardIndex];
+            if (!state || state.locked) return;
 
-            placedCategory = zone.dataset.category;
-            draggable.style.display = 'none';
-            draggable.setAttribute('draggable', 'false');
+            const existing = zone.querySelector('.dropped-item');
+            if (existing) {
+                const prevIdx = parseInt(existing.dataset.cardIdx, 10);
+                const prevState = cardStates[prevIdx];
+                if (prevState) {
+                    prevState.zone = null;
+                    prevState.card.style.display = 'flex';
+                    prevState.card.setAttribute('draggable', 'true');
+                }
+                existing.remove();
+            }
+
+            state.zone = zone.dataset.category;
+            state.card.style.display = 'none';
+            state.card.setAttribute('draggable', 'false');
 
             const dropContent = zone.querySelector('.drop-hint');
             if (dropContent) dropContent.style.display = 'none';
 
-            const item = items[currentRound];
             const droppedEl = document.createElement('div');
             droppedEl.className = 'dropped-item flex flex-col items-center gap-1 p-2 animate-pop';
+            droppedEl.dataset.cardIdx = state.idx;
             droppedEl.innerHTML = `
-                <img class="w-16 h-16 object-contain drop-shadow-md" src="${item.src}" alt="${item.label}"/>
-                <span class="text-label-caps text-primary font-bold text-sm">${item.label}</span>
+                <div class="w-14 h-14 rounded-lg bg-white/70 border-2 border-outline-variant flex items-center justify-center text-4xl font-bold drop-shadow-md">${state.item.emoji}</div>
+                <span class="text-label-caps text-primary font-bold text-sm">${state.item.label}</span>
             `;
-            const dropTarget = zone.querySelector('#dropzone-food') || zone;
-            dropTarget.appendChild(droppedEl);
+            zone.appendChild(droppedEl);
 
             zone.classList.add('border-secondary', 'bg-secondary-container/20');
+            activeCardIndex = -1;
         }
 
         function getDropZoneAtPoint(x, y) {
@@ -509,89 +600,29 @@
         let touchDragW = 0;
         let touchDragH = 0;
 
-        draggable.addEventListener('dragstart', (e) => {
-            if (placedCategory !== null) return;
-            e.dataTransfer.setData('text/plain', 'item');
-            setTimeout(() => draggable.classList.add('opacity-50'), 0);
-            dropCategories.forEach(z => z.classList.add('drop-zone-active', 'border-primary', 'bg-primary-fixed/10'));
-        });
-
-        draggable.addEventListener('dragend', (e) => {
-            draggable.classList.remove('opacity-50');
-            dropCategories.forEach(z => z.classList.remove('drop-zone-active', 'border-primary', 'bg-primary-fixed/10'));
-        });
-
-        draggable.addEventListener('touchstart', (e) => {
-            if (placedCategory !== null) return;
-            if (touchDragActive) return;
-            touchDragActive = true;
-            const touch = e.touches[0];
-
-            dropCategories.forEach(z => z.classList.add('drop-zone-active', 'border-primary', 'bg-primary-fixed/10'));
-
-            const rect = draggable.getBoundingClientRect();
-            touchDragW = rect.width;
-            touchDragH = rect.height;
-            touchDragClone = draggable.cloneNode(true);
-            touchDragClone.style.position = 'fixed';
-            touchDragClone.style.zIndex = '9999';
-            touchDragClone.style.pointerEvents = 'none';
-            touchDragClone.style.width = touchDragW + 'px';
-            touchDragClone.style.left = (touch.clientX - touchDragW / 2) + 'px';
-            touchDragClone.style.top = (touch.clientY - touchDragH / 2) + 'px';
-            touchDragClone.style.opacity = '0.85';
-            touchDragClone.style.transform = 'scale(1.05)';
-            touchDragClone.classList.remove('cursor-grab', 'active:cursor-grabbing');
-            document.body.appendChild(touchDragClone);
-            draggable.classList.add('opacity-50');
-        }, { passive: true });
-
-        draggable.addEventListener('touchmove', (e) => {
-            if (!touchDragActive || !touchDragClone) return;
-            e.preventDefault();
-            const touch = e.touches[0];
-            touchDragClone.style.left = (touch.clientX - touchDragW / 2) + 'px';
-            touchDragClone.style.top = (touch.clientY - touchDragH / 2) + 'px';
-
-            dropCategories.forEach(z => {
-                z.classList.remove('scale-105', 'bg-secondary-container/30', 'border-secondary', 'bg-secondary-container/20');
-            });
-            const zone = getDropZoneAtPoint(touch.clientX, touch.clientY);
-            if (zone && placedCategory === null) {
-                zone.classList.add('scale-105', 'bg-secondary-container/30');
-            }
-        }, { passive: false });
-
         function touchEndDrag(x, y) {
             touchDragActive = false;
             if (touchDragClone) {
                 touchDragClone.remove();
                 touchDragClone = null;
             }
-            draggable.classList.remove('opacity-50');
             dropCategories.forEach(z => {
                 z.classList.remove('drop-zone-active', 'border-primary', 'bg-primary-fixed/10', 'scale-105', 'bg-secondary-container/30');
             });
-            if (placedCategory !== null) return;
+            if (activeCardIndex < 0) return;
+            const state = cardStates[activeCardIndex];
+            if (state && state.card) state.card.classList.remove('opacity-50');
+            if (state && state.locked) return;
             const zone = getDropZoneAtPoint(x, y);
             if (zone) {
                 handleDrop(zone);
             }
         }
 
-        draggable.addEventListener('touchend', (e) => {
-            const touch = e.changedTouches[0];
-            touchEndDrag(touch.clientX, touch.clientY);
-        });
-
-        draggable.addEventListener('touchcancel', () => {
-            touchEndDrag(0, 0);
-        });
-
         dropCategories.forEach(zone => {
             zone.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                if (placedCategory !== null) return;
+                if (activeCardIndex < 0) return;
                 zone.classList.add('scale-105', 'bg-secondary-container/30');
             });
 
@@ -602,6 +633,10 @@
             zone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 zone.classList.remove('scale-105', 'bg-secondary-container/30');
+                const raw = e.dataTransfer.getData('text/plain');
+                if (raw && raw.indexOf('card-') === 0) {
+                    activeCardIndex = parseInt(raw.replace('card-', ''), 10);
+                }
                 handleDrop(zone);
             });
         });
@@ -612,20 +647,19 @@
         }
 
         function resetRound() {
-            placedCategory = null;
-            draggable.style.display = 'flex';
-            draggable.setAttribute('draggable', 'true');
-            document.querySelectorAll('.drop-category .dropped-item').forEach(el => el.remove());
-            document.querySelectorAll('.drop-category').forEach(z => {
-                z.classList.remove('border-secondary', 'bg-secondary-container/20', 'border-error', 'bg-error-container/20');
-            });
-            const hint = foodDropzone.querySelector('.drop-hint');
-            if (hint) hint.style.display = 'block';
+            renderCards();
+            resetZones();
         }
 
         btnCheck.addEventListener('click', function() {
-            if (placedCategory === null) {
-                this.innerHTML = '<span class="material-symbols-outlined filled-icon">info</span> ¡Arrastra el objeto primero!';
+            const animalRound = currentRound === 2;
+            const placed = animalRound
+                ? cardStates.filter(s => s.selected)
+                : cardStates.filter(s => s.zone !== null);
+            if (placed.length === 0) {
+                this.innerHTML = animalRound
+                    ? '<span class="material-symbols-outlined filled-icon">info</span> ¡Machuca una carta!'
+                    : '<span class="material-symbols-outlined filled-icon">info</span> ¡Arrastra la carta!';
                 this.className = 'w-full h-[64px] bg-error-container text-on-error-container rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 transition-all';
                 setTimeout(() => {
                     this.innerHTML = '<span class="material-symbols-outlined filled-icon">check_circle</span> Comprobar';
@@ -639,15 +673,18 @@
                 return;
             }
 
-            const correct = placedCategory === items[currentRound].category;
-            if (correct && !failedOnce[currentRound]) score++;
+            const dropped = placed[0];
+            const isCorrect = dropped.item.category === roundTargets[currentRound];
 
             this.disabled = true;
-            if (correct) {
+            if (isCorrect) {
+                score++;
+                cardStates.forEach(s => { s.locked = true; s.selected = false; });
                 this.innerHTML = '<span class="material-symbols-outlined filled-icon">celebration</span> ¡Correcto!';
                 this.className = 'w-full h-[64px] bg-on-secondary-container text-on-secondary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 transition-all';
                 if (navigator.vibrate) navigator.vibrate(80);
-                speakText('¡Correcto! ' + items[currentRound].label);
+                speakText('¡Correcto!');
+                launchConfetti();
                 this.dataset.advancing = 'true';
                 setTimeout(() => {
                     this.disabled = false;
@@ -656,16 +693,23 @@
                 }, 800);
             } else {
                 failures++;
-                failedOnce[currentRound] = true;
+                if (animalRound) {
+                    cardStates.forEach(s => {
+                        s.selected = false;
+                        s.card.classList.remove('scale-110', 'border-secondary', 'bg-secondary-container/30', 'ring-4', 'ring-secondary');
+                    });
+                } else {
+                    resetRound();
+                }
                 this.innerHTML = '<span class="material-symbols-outlined filled-icon">close</span> ¡Intenta de nuevo!';
                 this.className = 'w-full h-[64px] bg-error-container text-on-error-container rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 transition-all';
                 if (navigator.vibrate) navigator.vibrate(150);
+                speakText('Intenta de nuevo');
                 setTimeout(() => {
                     this.disabled = false;
                     this.innerHTML = '<span class="material-symbols-outlined filled-icon">check_circle</span> Comprobar';
                     this.className = 'w-full h-[64px] bg-secondary text-on-secondary rounded-xl font-headline-md text-headline-md tactile-button flex items-center justify-center gap-2 hover:bg-on-secondary-fixed-variant transition-all';
-                    resetRound();
-                }, 1000);
+                }, 1200);
             }
         });
 
