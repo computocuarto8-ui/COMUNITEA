@@ -258,13 +258,18 @@
             } catch(e) {}
         }
 
-        var appInventorSpeakCounter = 0;
+        function cleanSpeechText(text) {
+            if (!text) return '';
+            var s = String(text).trim();
+            s = s.replace(/^(speak|speech|audio|tts|voz|reproduciendo|reproducir|decir|play)\s*:?[\s-]*/i, '');
+            s = s.replace(/\|\d+\s*$/i, '');
+            return s.trim();
+        }
 
         function speakViaAppInventor(text) {
             try {
                 if (typeof AppInventor !== 'undefined' && typeof AppInventor.setWebViewString === 'function') {
-                    appInventorSpeakCounter++;
-                    AppInventor.setWebViewString('SPEAK:' + text + '|' + appInventorSpeakCounter);
+                    AppInventor.setWebViewString(cleanSpeechText(text));
                     return true;
                 }
             } catch(e) {}
@@ -272,6 +277,8 @@
         }
 
         function speakText(text) {
+            if (!text) return;
+            text = cleanSpeechText(text);
             if (!text) return;
             if (speakViaAppInventor(text)) return;
             if (typeof speechSynthesis !== 'undefined') {
