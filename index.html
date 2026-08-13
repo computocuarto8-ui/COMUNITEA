@@ -25,6 +25,13 @@
             font-family: 'Quicksand', sans-serif;
             min-height: max(884px, 100dvh);
         }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 <script id="tailwind-config">
         tailwind.config = {
@@ -189,29 +196,29 @@
 </div>
 </main>
 <!-- BottomNavBar -->
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-inverse-surface border-t-2 border-surface-variant dark:border-outline-variant rounded-t-xl shadow-lg">
+<nav class="bottom-nav no-scrollbar fixed bottom-0 left-0 w-full z-50 flex items-center gap-2 px-3 py-3 overflow-x-auto bg-surface dark:bg-inverse-surface border-t-2 border-surface-variant dark:border-outline-variant rounded-t-xl shadow-lg">
 <!-- Home (Active) -->
-<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="#">
+<a class="flex-shrink-0 flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="#">
 <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">home</span>
     <span class="text-label-caps font-label-caps">Inicio</span>
 </a>
   <!-- Words -->
-  <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="tablero_comunicacion.html">
+  <a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="tablero_comunicacion.html">
     <span class="material-symbols-outlined text-2xl">grid_view</span>
     <span class="text-label-caps font-label-caps">Palabras</span>
   </a>
   <!-- Feelings -->
-  <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="emociones.html">
+  <a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="emociones.html">
     <span class="material-symbols-outlined text-2xl">mood</span>
     <span class="text-label-caps font-label-caps">Emociones</span>
   </a>
   <!-- Learning -->
-  <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="aprendizaje.html">
+  <a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="aprendizaje.html">
     <span class="material-symbols-outlined text-2xl">school</span>
     <span class="text-label-caps font-label-caps">Aprendizaje</span>
   </a>
   <!-- Play -->
-  <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="ejercicios.html">
+  <a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="ejercicios.html">
     <span class="material-symbols-outlined text-2xl">extension</span>
     <span class="text-label-caps font-label-caps">Jugar</span>
   </a>

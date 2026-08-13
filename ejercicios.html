@@ -54,6 +54,13 @@
         body {
             min-height: max(884px, 100dvh);
         }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 <script id="tailwind-config">
         tailwind.config = {
@@ -211,24 +218,24 @@
 </div>
 </main>
 <!-- BottomNavBar -->
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface dark:bg-inverse-surface border-t-2 border-surface-variant dark:border-outline-variant shadow-lg rounded-t-xl">
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="index.html">
+<nav class="bottom-nav no-scrollbar fixed bottom-0 left-0 w-full z-50 flex items-center gap-2 px-3 py-3 overflow-x-auto bg-surface dark:bg-inverse-surface border-t-2 border-surface-variant dark:border-outline-variant shadow-lg rounded-t-xl">
+<a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="index.html">
 <span class="material-symbols-outlined mb-1" data-icon="home">home</span>
 <span class="font-label-caps text-label-caps">Inicio</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="tablero_comunicacion.html">
+<a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="tablero_comunicacion.html">
 <span class="material-symbols-outlined mb-1" data-icon="grid_view">grid_view</span>
 <span class="font-label-caps text-label-caps">Palabras</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="emociones.html">
+<a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="emociones.html">
 <span class="material-symbols-outlined mb-1" data-icon="mood">mood</span>
 <span class="font-label-caps text-label-caps">Emociones</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="aprendizaje.html">
+<a class="flex-shrink-0 flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-2 hover:bg-surface-container-low transition-colors" href="aprendizaje.html">
 <span class="material-symbols-outlined mb-1" data-icon="school">school</span>
 <span class="font-label-caps text-label-caps">Aprendizaje</span>
 </a>
-<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="ejercicios.html">
+<a class="flex-shrink-0 flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed rounded-xl px-4 py-2 scale-95 transition-all duration-150" href="ejercicios.html">
 <span class="material-symbols-outlined mb-1 filled-icon" data-icon="extension">extension</span>
 <span class="font-label-caps text-label-caps">Jugar</span>
 </a>
@@ -251,8 +258,22 @@
             } catch(e) {}
         }
 
+        var appInventorSpeakCounter = 0;
+
+        function speakViaAppInventor(text) {
+            try {
+                if (typeof AppInventor !== 'undefined' && typeof AppInventor.setWebViewString === 'function') {
+                    appInventorSpeakCounter++;
+                    AppInventor.setWebViewString('SPEAK:' + text + '|' + appInventorSpeakCounter);
+                    return true;
+                }
+            } catch(e) {}
+            return false;
+        }
+
         function speakText(text) {
             if (!text) return;
+            if (speakViaAppInventor(text)) return;
             if (typeof speechSynthesis !== 'undefined') {
                 try {
                     speechSynthesis.cancel();
