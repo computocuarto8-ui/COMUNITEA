@@ -159,32 +159,32 @@
 <!-- Communication Grid -->
 <div class="grid grid-cols-2 md:grid-cols-3 gap-gutter">
 <!-- Water / Agua (Needs Category - Blue) -->
-<button class="pictogram-card aspect-square bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Agua', 'water_full', 'bg-primary-container', 'text-on-primary-container')">
+<button class="pictogram-card aspect-square bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence(this)">
 <img alt="Agua" class="w-32 h-32 object-contain mb-2" src="img/agua1.png"/>
 <span class="font-headline-md text-headline-md text-on-primary-container uppercase tracking-wide">AGUA</span>
 </button>
 <!-- Eat / Comer (Needs Category - Green) -->
-<button class="pictogram-card aspect-square bg-secondary-container border-2 border-on-secondary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Comer', 'restaurant', 'bg-secondary-container', 'text-on-secondary-container')">
+<button class="pictogram-card aspect-square bg-secondary-container border-2 border-on-secondary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence(this)">
 <img alt="Comida" class="w-32 h-32 object-contain mb-2" src="img/comida1.png"/>
 <span class="font-headline-md text-headline-md text-on-secondary-container uppercase tracking-wide">COMER</span>
 </button>
 <!-- Toilet / Baño (Hygiene Category - Yellow/Amber) -->
-<button class="pictogram-card aspect-square bg-tertiary-container border-2 border-on-tertiary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Baño', 'wc', 'bg-tertiary-container', 'text-on-tertiary-container')">
+<button class="pictogram-card aspect-square bg-tertiary-container border-2 border-on-tertiary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence(this)">
 <img alt="Baño" class="w-32 h-32 object-contain mb-2" src="img/canva.png"/>
 <span class="font-headline-md text-headline-md text-on-tertiary-container uppercase tracking-wide">BAÑO</span>
 </button>
 <!-- Play / Jugar (Activities Category - Purple-ish) -->
-<button class="pictogram-card aspect-square bg-primary-fixed-dim border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Jugar', 'extension', 'bg-primary-fixed-dim', 'text-on-primary-fixed-variant')">
+<button class="pictogram-card aspect-square bg-primary-fixed-dim border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence(this)">
 <img alt="Jugar" class="w-32 h-32 object-contain mb-2" src="img/jugar.png"/>
 <span class="font-headline-md text-headline-md text-on-primary-fixed-variant uppercase tracking-wide">JUGAR</span>
 </button>
 <!-- Help / Ayuda (Emergency Category - Red) -->
-<button class="pictogram-card aspect-square bg-error-container border-2 border-error rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Ayuda', 'emergency', 'bg-error-container', 'text-on-error-container')">
+<button class="pictogram-card aspect-square bg-error-container border-2 border-error rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence(this)">
 <img alt="Ayuda" class="w-32 h-32 object-contain mb-2" src="img/ayuda.png"/>
 <span class="font-headline-md text-headline-md text-on-error-container uppercase tracking-wide">AYUDA</span>
 </button>
 <!-- Sleep / Dormir (Physical Category - Soft Blue) -->
-<button class="pictogram-card aspect-square bg-primary-fixed border-2 border-outline-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence('Dormir', 'bedtime', 'bg-primary-fixed', 'text-on-primary-fixed-variant')">
+<button class="pictogram-card aspect-square bg-primary-fixed border-2 border-outline-variant rounded-xl flex flex-col items-center justify-center p-4" onclick="addToSentence(this)">
 <img alt="Dormir" class="w-32 h-32 object-contain mb-2" src="img/dormir.png"/>
 <span class="font-headline-md text-headline-md text-on-primary-fixed-variant uppercase tracking-wide">DORMIR</span>
 </button>
@@ -193,22 +193,22 @@
 <h3 class="font-headline-md text-headline-md text-on-surface-variant">¿Cómo te sientes?</h3>
 </div>
 <!-- Feliz -->
-<a class="pictogram-card aspect-square bg-secondary-container border-2 border-on-secondary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html">
+<a class="pictogram-card aspect-square bg-secondary-container border-2 border-on-secondary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html" onclick="speakText(this.querySelector('span').textContent.trim())">
 <img alt="Feliz" class="w-32 h-32 object-contain mb-2" src="img/feliz1.png"/>
 <span class="font-headline-md text-headline-md text-on-secondary-container uppercase tracking-wide">FELIZ</span>
 </a>
 <!-- Triste -->
-<a class="pictogram-card aspect-square bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html">
+<a class="pictogram-card aspect-square bg-primary-container border-2 border-on-primary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html" onclick="speakText(this.querySelector('span').textContent.trim())">
 <img alt="Triste" class="w-32 h-32 object-contain mb-2" src="img/triste.png"/>
 <span class="font-headline-md text-headline-md text-on-primary-container uppercase tracking-wide">TRISTE</span>
 </a>
 <!-- Enojado -->
-<a class="pictogram-card aspect-square bg-error-container border-2 border-on-error-container rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html">
+<a class="pictogram-card aspect-square bg-error-container border-2 border-on-error-container rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html" onclick="speakText(this.querySelector('span').textContent.trim())">
 <img alt="Enojado" class="w-32 h-32 object-contain mb-2" src="img/enojado1.png"/>
 <span class="font-headline-md text-headline-md text-on-error-container uppercase tracking-wide">ENOJADO</span>
 </a>
 <!-- Calmado -->
-<a class="pictogram-card aspect-square bg-tertiary-container border-2 border-on-tertiary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html">
+<a class="pictogram-card aspect-square bg-tertiary-container border-2 border-on-tertiary-fixed-variant rounded-xl flex flex-col items-center justify-center p-4" href="emociones.html" onclick="speakText(this.querySelector('span').textContent.trim())">
 <img alt="Calmado" class="w-32 h-32 object-contain mb-2" src="img/calmado.png"/>
 <span class="font-headline-md text-headline-md text-on-tertiary-container uppercase tracking-wide">CALMADO</span>
 </a>
@@ -339,7 +339,10 @@
             }
         });
 
-        function addToSentence(label) {
+        function addToSentence(btn) {
+            const span = btn.querySelector('span');
+            const label = span ? span.textContent.trim() : '';
+            if (!label) return;
             const current = textInput.value.trim();
             textInput.value = current ? current + ' ' + label : label;
             textInput.focus();

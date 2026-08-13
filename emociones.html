@@ -152,28 +152,28 @@
 <!-- Emotions Gallery - Bento Grid -->
 <section class="px-container-padding grid grid-cols-2 gap-gutter">
 <!-- Feliz -->
-<div class="emotion-card bg-secondary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-secondary" onclick="openEmotion('Feliz', 'bg-secondary-container')">
+<div class="emotion-card bg-secondary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-secondary" onclick="openEmotion(this, 'bg-secondary-container')">
 <div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-secondary-fixed-variant">
 <img class="w-full h-full object-cover" src="img/alegre.png"/>
 </div>
 <span class="font-label-caps text-label-caps text-on-secondary-container">FELIZ</span>
 </div>
 <!-- Triste -->
-<div class="emotion-card bg-primary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-primary" onclick="openEmotion('Triste', 'bg-primary-container')">
+<div class="emotion-card bg-primary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-primary" onclick="openEmotion(this, 'bg-primary-container')">
 <div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-primary-fixed-variant">
 <img class="w-full h-full object-contain p-2" src="img/emo.png"/>
 </div>
 <span class="font-label-caps text-label-caps text-on-primary-container">TRISTE</span>
 </div>
 <!-- Enojado -->
-<div class="emotion-card bg-error-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-error" onclick="openEmotion('Enojado', 'bg-error-container')">
+<div class="emotion-card bg-error-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-error" onclick="openEmotion(this, 'bg-error-container')">
 <div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-error-container">
 <img class="w-full h-full object-cover" src="img/reneon.png"/>
 </div>
 <span class="font-label-caps text-label-caps text-on-error-container">ENOJADO</span>
 </div>
 <!-- Calmado -->
-<div class="emotion-card bg-tertiary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-tertiary" onclick="openEmotion('Calmado', 'bg-tertiary-container')">
+<div class="emotion-card bg-tertiary-container border-2 border-[#EAECEE] rounded-xl p-stack-sm flex flex-col items-center justify-center gap-unit cursor-pointer shadow-sm hover:border-tertiary" onclick="openEmotion(this, 'bg-tertiary-container')">
 <div class="w-full aspect-square rounded-lg overflow-hidden border-2 border-on-tertiary-fixed-variant">
 <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV8GOswRYfaMUXl1CWmGiUl6QFMmAKfasHmAOAj-GpE9S8k3BwS_tZDgvnX57-IZW3fZnBiu1rlDVArUpGh6AJXoTD1McVxR0luQ6dTqtuVqRoyaCDY11uDBGY4qkBjFPGD5dBp2JIVtP4X_g03_iSsZY-SMvGsq1jOWCliC0_tvTObfTBqososjlNorsnnG9GqDcZffYhRs8ysLyaW4VTDMhkSHlpJNr8LPXX66Aj5Tk-IE3hRwPEfw"/>
 </div>
@@ -284,14 +284,16 @@
         document.addEventListener('click', unlockAudio, { once: true });
         document.addEventListener('pointerdown', unlockAudio, { once: true });
 
-        function openEmotion(label, bgColor) {
+        function openEmotion(btn, bgColor) {
             const modal = document.getElementById('emotionModal');
             const content = document.getElementById('modalContent');
             const title = document.getElementById('modalTitle');
             const img = document.getElementById('modalImage');
+            const span = btn.querySelector('span');
+            const label = span ? span.textContent.trim() : '';
 
             title.textContent = label;
-            speakText('Me siento ' + label);
+            speakText(label);
             
             // Clean classes and apply dynamic ones
             content.className = `relative w-full max-w-md ${bgColor} rounded-2xl p-6 border-4 border-on-surface shadow-2xl flex flex-col items-center gap-stack-md transform scale-90 opacity-0 transition-all duration-300`;
